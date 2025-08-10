@@ -42,7 +42,7 @@ export default {
 
 <style>
 /*每个页面公共css */
-@import './src/static/css/common.css';
+@import 'static/css/common.css';
 
 page {
   font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
