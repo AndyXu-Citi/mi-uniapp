@@ -1,0 +1,111 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "马拉松报名",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/event-detail/event-detail",
+      "style": {
+        "navigationBarTitleText": "赛事详情",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/search/search",
+      "style": {
+        "navigationBarTitleText": "搜索赛事",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/search-results/search-results",
+      "style": {
+        "navigationBarTitleText": "搜索结果",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/favorites/favorites",
+      "style": {
+        "navigationBarTitleText": "我的收藏",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/profile/profile",
+      "style": {
+        "navigationBarTitleText": "个人中心",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/registration/registration",
+      "style": {
+        "navigationBarTitleText": "赛事报名",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/registration-records/registration-records",
+      "style": {
+        "navigationBarTitleText": "报名记录",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationBarTitleText": "登录",
+        "enablePullDownRefresh": false
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "马拉松报名",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/images/tabbar/home.png",
+        "selectedIconPath": "static/images/tabbar/home-active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/search/search",
+        "iconPath": "static/images/tabbar/search.png",
+        "selectedIconPath": "static/images/tabbar/search-active.png",
+        "text": "搜索"
+      },
+      {
+        "pagePath": "pages/favorites/favorites",
+        "iconPath": "static/images/tabbar/favorite.png",
+        "selectedIconPath": "static/images/tabbar/favorite-active.png",
+        "text": "收藏"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "iconPath": "static/images/tabbar/profile.png",
+        "selectedIconPath": "static/images/tabbar/profile-active.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^u-(.*)":"uview-ui/components/u-$1/u-$1.vue"
+    }
+  }
+}

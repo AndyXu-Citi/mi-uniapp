@@ -1,0 +1,45 @@
+{
+  "name": "mi-uniapp",
+  "version": "1.0.0",
+  "description": "马拉松报名小程序",
+  "main": "main.js",
+  "scripts": {
+    "dev": "uni",
+    "build": "uni build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "marathon",
+    "registration",
+    "uniapp"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@dcloudio/uni-app": "^2.0.1",
+    "@dcloudio/uni-app-plus": "^2.0.1",
+    "@dcloudio/uni-h5": "^2.0.1",
+    "@dcloudio/uni-mp-alipay": "^2.0.1",
+    "@dcloudio/uni-mp-baidu": "^2.0.1",
+    "@dcloudio/uni-mp-qq": "^2.0.1",
+    "@dcloudio/uni-mp-toutiao": "^2.0.1",
+    "@dcloudio/uni-mp-weixin": "^2.0.1",
+    "@dcloudio/uni-stat": "^2.0.1",
+    "vuex": "^3.6.2",
+    "dayjs": "^1.11.7",
+    "uview-ui": "^2.0.31"
+  },
+  "devDependencies": {
+    "@dcloudio/uni-cli-shared": "^2.0.1",
+    "@dcloudio/vue-cli-plugin-hbuilderx": "^2.0.1",
+    "@dcloudio/vue-cli-plugin-uni": "^2.0.1",
+    "@dcloudio/vue-cli-plugin-uni-optimize": "^2.0.1",
+    "@dcloudio/webpack-uni-mp-loader": "^2.0.1",
+    "@dcloudio/webpack-uni-pages-loader": "^2.0.1",
+    "@vue/cli-plugin-babel": "^4.5.15",
+    "@vue/cli-service": "^4.5.15",
+    "babel-plugin-import": "^1.13.5",
+    "postcss-comment": "^2.0.0",
+    "vue-template-compiler": "^2.6.14"
+  }
+}
