@@ -1,18 +1,18 @@
 <template>
 	<view class="event-card" @click="$emit('click')">
 		<view class="event-image">
-			<u-image :src="event.image" width="100%" height="200" mode="aspectFill"></u-image>
+			<image :src="event.image" mode="aspectFill" class="event-img"></image>
 			<view class="event-status" :class="statusClass">{{ event.status }}</view>
 		</view>
 		<view class="event-info">
 			<text class="event-title">{{ event.title }}</text>
 			<view class="event-meta">
 				<view class="meta-item">
-					<u-icon name="calendar" size="28" color="#999"></u-icon>
+					<image src="/static/icons/calendar.png" class="meta-icon"></image>
 					<text class="meta-text">{{ formatDate(event.date) }}</text>
 				</view>
 				<view class="meta-item">
-					<u-icon name="map" size="28" color="#999"></u-icon>
+					<image src="/static/icons/map.png" class="meta-icon"></image>
 					<text class="meta-text">{{ event.location }}</text>
 				</view>
 			</view>
@@ -44,7 +44,12 @@ export default {
 	},
 	methods: {
 		formatDate(date) {
-			return this.$u.timeFormat(date, 'mm/dd')
+			// 简单的日期格式化
+			if (!date) return ''
+			const d = new Date(date)
+			const month = d.getMonth() + 1
+			const day = d.getDate()
+			return `${month}/${day}`
 		}
 	}
 }
@@ -61,6 +66,11 @@ export default {
 
 .event-image {
 	position: relative;
+	height: 200rpx;
+}
+
+.event-img {
+	width: 100%;
 	height: 200rpx;
 }
 
@@ -106,6 +116,12 @@ export default {
 	display: flex;
 	align-items: center;
 	margin-bottom: 10rpx;
+}
+
+.meta-icon {
+	width: 28rpx;
+	height: 28rpx;
+	margin-right: 10rpx;
 }
 
 .meta-text {

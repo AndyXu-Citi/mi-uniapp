@@ -2,31 +2,33 @@
 	<view class="container">
 		<!-- 搜索栏 -->
 		<view class="search-header">
-			<u-search 
-				placeholder="搜索马拉松赛事" 
-				v-model="searchKeyword"
-				:show-action="true"
-				action-text="搜索"
-				@search="handleSearch"
-				@custom="handleSearch"
-			></u-search>
+			<view class="search-bar">
+				<text class="iconfont icon-search search-icon"></text>
+				<input 
+					class="search-input"
+					v-model="searchKeyword"
+					placeholder="搜索马拉松赛事"
+					@confirm="handleSearch"
+				/>
+				<text class="search-btn" @tap="handleSearch">搜索</text>
+			</view>
 		</view>
 
 		<!-- 搜索历史 -->
 		<view class="search-history" v-if="searchHistory.length > 0 && !searchKeyword">
 			<view class="history-header">
 				<text class="history-title">搜索历史</text>
-				<text class="clear-btn" @click="clearHistory">清空</text>
+				<text class="clear-btn" @tap="clearHistory">清空</text>
 			</view>
 			<view class="history-tags">
-				<u-tag 
+				<view 
+					class="tag-item"
 					v-for="(item, index) in searchHistory" 
 					:key="index"
-					:text="item" 
-					mode="light" 
-					@close="removeHistory(index)"
-					closeable
-				></u-tag>
+				>
+					<text @tap="selectKeyword(item)">{{ item }}</text>
+					<text class="close-btn" @tap="removeHistory(index)">×</text>
+				</view>
 			</view>
 		</view>
 
@@ -36,25 +38,30 @@
 				<text class="hot-title">热门搜索</text>
 			</view>
 			<view class="hot-tags">
-				<u-tag 
+				<view 
+					class="tag-item"
 					v-for="(item, index) in hotKeywords" 
 					:key="index"
-					:text="item" 
-					mode="light"
-					@click="selectKeyword(item)"
-				></u-tag>
+					@tap="selectKeyword(item)"
+				>
+					{{ item }}
+				</view>
 			</view>
 		</view>
 
 		<!-- 搜索结果 -->
 		<view class="search-results" v-if="searchKeyword">
 			<view class="filter-section">
-				<u-dropdown>
-					<u-dropdown-item v-model="filter.city" title="城市" :options="cityOptions"></u-dropdown-item>
-					<u-dropdown-item v-model="filter.type" title="类型" :options="typeOptions"></u-dropdown-item>
-					<u-dropdown-item v-model="filter.price" title="价格" :options="priceOptions"></u-dropdown-item>
-					<u-dropdown-item v-model="filter.date" title="时间" :options="dateOptions"></u-dropdown-item>
-				</u-dropdown>
+				<view class="filter-tabs">
+					<view 
+						class="filter-tab"
+						v-for="(options, key) in filterOptions"
+						:key="key"
+						@tap="showFilter(key)"
+					>
+						{{ getFilterTitle(key) }}
+					</view>
+				</view>
 			</view>
 
 			<view class="result-list">
@@ -62,20 +69,23 @@
 					v-for="event in searchResults" 
 					:key="event.id" 
 					:event="event"
-					@click="goToEventDetail(event.id)"
+					@tap="goToEventDetail(event.id)"
 				></event-card>
 			</view>
 
 			<!-- 加载更多 -->
-			<u-loadmore 
-				:status="loadStatus" 
-				@loadmore="loadMore"
-				v-if="searchResults.length > 0"
-			></u-loadmore>
+			<view 
+				class="load-more"
+				v-if="searchResults.length > 0 && loadStatus === 'loadmore'"
+				@tap="loadMore"
+			>
+				点击加载更多
+			</view>
 
 			<!-- 空状态 -->
 			<view v-if="searchResults.length === 0 && loading === false" class="empty-state">
-				<u-empty text="暂无相关赛事" mode="search"></u-empty>
+				<image class="empty-icon" src="/static/images/empty-search.png" mode="aspectFit"></image>
+				<text class="empty-text">暂无相关赛事</text>
 			</view>
 		</view>
 	</view>
@@ -210,16 +220,51 @@ export default {
 	min-height: 100vh;
 }
 
+.container {
+	background-color: #f5f5f5;
+	min-height: 100vh;
+}
+
 .search-header {
 	background: #fff;
 	padding: 20rpx;
+	position: sticky;
+	top: 0;
+	z-index: 100;
+}
+
+.search-bar {
+	display: flex;
+	align-items: center;
+	background-color: #f5f5f5;
+	border-radius: 40rpx;
+	padding: 20rpx 30rpx;
+}
+
+.search-icon {
+	font-size: 32rpx;
+	color: #999;
+	margin-right: 20rpx;
+}
+
+.search-input {
+	flex: 1;
+	font-size: 28rpx;
+	border: none;
+	background: transparent;
+}
+
+.search-btn {
+	color: #007AFF;
+	font-size: 28rpx;
+	margin-left: 20rpx;
 }
 
 .search-history,
 .hot-search {
 	background: #fff;
-	margin: 20rpx 0;
 	padding: 30rpx;
+	margin-bottom: 20rpx;
 }
 
 .history-header,
@@ -238,8 +283,8 @@ export default {
 }
 
 .clear-btn {
-	font-size: 28rpx;
 	color: #999;
+	font-size: 28rpx;
 }
 
 .history-tags,
@@ -247,6 +292,22 @@ export default {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 20rpx;
+}
+
+.tag-item {
+	display: flex;
+	align-items: center;
+	background-color: #f5f5f5;
+	border-radius: 20rpx;
+	padding: 10rpx 20rpx;
+	font-size: 24rpx;
+	color: #666;
+}
+
+.close-btn {
+	margin-left: 10rpx;
+	color: #999;
+	font-size: 24rpx;
 }
 
 .search-results {
@@ -259,11 +320,49 @@ export default {
 	border-radius: 8rpx;
 }
 
+.filter-tabs {
+	display: flex;
+	justify-content: space-around;
+	padding: 20rpx 0;
+}
+
+.filter-tab {
+	padding: 20rpx 30rpx;
+	font-size: 28rpx;
+	color: #666;
+	border-bottom: 2rpx solid transparent;
+}
+
+.filter-tab.active {
+	color: #007AFF;
+	border-bottom-color: #007AFF;
+}
+
 .result-list {
+	padding: 0 20rpx;
 	margin-bottom: 20rpx;
 }
 
+.load-more {
+	text-align: center;
+	padding: 40rpx;
+	color: #999;
+	font-size: 28rpx;
+}
+
 .empty-state {
-	padding: 200rpx 0;
+	text-align: center;
+	padding: 100rpx 0;
+}
+
+.empty-icon {
+	width: 200rpx;
+	height: 200rpx;
+	margin-bottom: 20rpx;
+}
+
+.empty-text {
+	color: #999;
+	font-size: 28rpx;
 }
 </style>

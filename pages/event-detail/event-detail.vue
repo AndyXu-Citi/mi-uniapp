@@ -2,7 +2,7 @@
 	<view class="container">
 		<!-- 顶部图片 -->
 		<view class="event-header">
-			<u-image :src="event.image" width="100%" height="400" mode="aspectFill"></u-image>
+			<image :src="event.image" mode="aspectFill" class="event-image"></image>
 			<view class="event-status" :class="statusClass">{{ event.status }}</view>
 		</view>
 
@@ -11,15 +11,15 @@
 			<text class="event-title">{{ event.title }}</text>
 			<view class="event-meta">
 				<view class="meta-item">
-					<u-icon name="calendar" size="32" color="#666"></u-icon>
+					<image src="/static/icons/calendar.png" class="meta-icon"></image>
 					<text class="meta-text">{{ event.date }}</text>
 				</view>
 				<view class="meta-item">
-					<u-icon name="map" size="32" color="#666"></u-icon>
+					<image src="/static/icons/map.png" class="meta-icon"></image>
 					<text class="meta-text">{{ event.location }}</text>
 				</view>
 				<view class="meta-item">
-					<u-icon name="clock" size="32" color="#666"></u-icon>
+					<image src="/static/icons/clock.png" class="meta-icon"></image>
 					<text class="meta-text">{{ event.startTime }} - {{ event.endTime }}</text>
 				</view>
 			</view>
@@ -31,7 +31,17 @@
 
 		<!-- 赛事详情 -->
 		<view class="event-detail">
-			<u-tabs :list="tabList" v-model="currentTab" active-color="#007AFF"></u-tabs>
+			<view class="tab-nav">
+			<view 
+				v-for="(tab, index) in tabList" 
+				:key="index"
+				class="tab-item"
+				:class="{ active: currentTab === index }"
+				@click="currentTab = index"
+			>
+				{{ tab.name }}
+			</view>
+		</view>
 			<view class="tab-content">
 				<!-- 赛事介绍 -->
 				<view v-if="currentTab === 0" class="content-section">
@@ -94,7 +104,7 @@
 		<view class="bottom-bar">
 			<view class="action-buttons">
 				<button class="btn-favorite" @click="toggleFavorite">
-					<u-icon :name="isFavorite ? 'star-fill' : 'star'" size="40" :color="isFavorite ? '#ff9500' : '#999'"></u-icon>
+					<image :src="isFavorite ? '/static/icons/star-fill.png' : '/static/icons/star.png'" class="favorite-icon"></image>
 					<text>{{ isFavorite ? '已收藏' : '收藏' }}</text>
 				</button>
 				<button 
@@ -203,19 +213,24 @@ export default {
 .container {
 	background-color: #f5f5f5;
 	min-height: 100vh;
-	padding-bottom: 100rpx;
+	padding-bottom: 120rpx;
 }
 
 .event-header {
 	position: relative;
 }
 
+.event-image {
+	width: 100%;
+	height: 400rpx;
+}
+
 .event-status {
 	position: absolute;
-	top: 30rpx;
-	right: 30rpx;
-	padding: 8rpx 20rpx;
-	border-radius: 30rpx;
+	top: 20rpx;
+	right: 20rpx;
+	padding: 8rpx 16rpx;
+	border-radius: 20rpx;
 	font-size: 24rpx;
 	color: #fff;
 }
@@ -253,13 +268,19 @@ export default {
 .meta-item {
 	display: flex;
 	align-items: center;
-	margin-bottom: 15rpx;
+	margin-bottom: 10rpx;
+}
+
+.meta-icon {
+	width: 32rpx;
+	height: 32rpx;
+	margin-right: 10rpx;
 }
 
 .meta-text {
 	font-size: 28rpx;
 	color: #666;
-	margin-left: 15rpx;
+	margin-left: 10rpx;
 }
 
 .event-price {
@@ -279,8 +300,29 @@ export default {
 }
 
 .event-detail {
+	margin-top: 20rpx;
 	background: #fff;
 	margin-bottom: 20rpx;
+}
+
+.tab-nav {
+	display: flex;
+	border-bottom: 1rpx solid #eee;
+	background-color: #fff;
+}
+
+.tab-item {
+	flex: 1;
+	text-align: center;
+	padding: 20rpx 0;
+	font-size: 28rpx;
+	color: #666;
+	border-bottom: 4rpx solid transparent;
+}
+
+.tab-item.active {
+	color: #007AFF;
+	border-bottom-color: #007AFF;
 }
 
 .tab-content {
@@ -288,7 +330,7 @@ export default {
 }
 
 .content-section {
-	margin-bottom: 30rpx;
+	margin-bottom: 40rpx;
 }
 
 .section-title {
@@ -299,45 +341,59 @@ export default {
 }
 
 .route-info {
+	background-color: #f8f9fa;
+	border-radius: 10rpx;
+	padding: 20rpx;
 	margin-bottom: 20rpx;
 }
 
 .route-item {
 	display: flex;
-	margin-bottom: 10rpx;
+	margin-bottom: 15rpx;
 }
 
 .route-label {
 	font-size: 28rpx;
 	color: #666;
-	width: 120rpx;
+	min-width: 120rpx;
 }
 
 .route-value {
 	font-size: 28rpx;
 	color: #333;
-	flex: 1;
+	font-weight: bold;
 }
 
 .registration-info {
+	background-color: #f8f9fa;
+	border-radius: 10rpx;
+	padding: 20rpx;
 	margin-bottom: 20rpx;
 }
 
 .info-item {
 	display: flex;
+	justify-content: space-between;
 	margin-bottom: 15rpx;
+	padding-bottom: 15rpx;
+	border-bottom: 1rpx solid #eee;
+}
+
+.info-item:last-child {
+	margin-bottom: 0;
+	padding-bottom: 0;
+	border-bottom: none;
 }
 
 .info-label {
 	font-size: 28rpx;
 	color: #666;
-	width: 150rpx;
 }
 
 .info-value {
 	font-size: 28rpx;
 	color: #333;
-	flex: 1;
+	font-weight: bold;
 }
 
 .bottom-bar {
@@ -345,30 +401,45 @@ export default {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	background: #fff;
+	background-color: #fff;
 	padding: 20rpx;
 	border-top: 1rpx solid #eee;
 }
 
 .action-buttons {
 	display: flex;
+	gap: 20rpx;
 	align-items: center;
 }
 
 .btn-favorite {
-	flex: 1;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	background: none;
-	border: none;
+	padding: 20rpx;
+	border: 1rpx solid #ddd;
+	border-radius: 10rpx;
+	background-color: #fff;
+	width: 120rpx;
+}
+
+.favorite-icon {
+	width: 40rpx;
+	height: 40rpx;
+}
+
+.btn-favorite text {
 	font-size: 24rpx;
 	color: #666;
+	margin-top: 5rpx;
 }
 
 .btn-register {
-	flex: 3;
-	margin-left: 20rpx;
+	flex: 1;
+	padding: 20rpx;
+	border-radius: 10rpx;
+	font-size: 32rpx;
+	font-weight: bold;
 }
 </style>

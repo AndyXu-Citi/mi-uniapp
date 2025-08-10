@@ -3,54 +3,56 @@
 		<!-- 登录表单 -->
 		<view class="login-form">
 			<view class="logo-section">
-				<u-image src="/static/images/logo.png" width="120" height="120" mode="aspectFit"></u-image>
+				<image src="/static/images/logo.png" class="logo" mode="aspectFit"></image>
 				<text class="app-name">马拉松报名</text>
 			</view>
 
-			<u-form ref="loginForm" :model="loginForm" :rules="rules">
-				<u-form-item prop="phone">
-					<u-input 
+			<form class="form-container" @submit="handleLogin">
+				<view class="form-item">
+					<text class="iconfont icon-phone form-icon"></text>
+					<input 
 						v-model="loginForm.phone" 
+						class="form-input"
 						placeholder="请输入手机号"
-						prefix-icon="phone"
 						maxlength="11"
-					></u-input>
-				</u-form-item>
+					/>
+				</view>
 
-				<u-form-item prop="password">
-					<u-input 
+				<view class="form-item" v-if="loginType === 'password'">
+					<text class="iconfont icon-lock form-icon"></text>
+					<input 
 						v-model="loginForm.password" 
 						type="password"
+						class="form-input"
 						placeholder="请输入密码"
-						prefix-icon="lock"
-					></u-input>
-				</u-form-item>
+					/>
+				</view>
 
-				<u-form-item v-if="loginType === 'sms'" prop="code">
-					<u-input 
+				<view class="form-item" v-if="loginType === 'sms'">
+					<text class="iconfont icon-chat form-icon"></text>
+					<input 
 						v-model="loginForm.code" 
+						class="form-input"
 						placeholder="请输入验证码"
-						prefix-icon="chat"
-					>
-						<u-button slot="suffix" size="mini" @click="getCode" :disabled="codeDisabled">
-							{{ codeText }}
-						</u-button>
-					</u-input>
-				</u-form-item>
-			</u-form>
+					/>
+					<button class="code-btn" @tap="getCode" :disabled="codeDisabled">
+						{{ codeText }}
+					</button>
+				</view>
+			</form>
 
 			<view class="form-actions">
-				<u-button type="primary" @click="handleLogin" :loading="loading">
+				<button class="login-btn" @tap="handleLogin" :loading="loading">
 					登录
-				</u-button>
-				<view class="login-type-switch" @click="switchLoginType">
+				</button>
+				<view class="login-type-switch" @tap="switchLoginType">
 					{{ loginType === 'password' ? '短信验证码登录' : '密码登录' }}
 				</view>
 			</view>
 
 			<view class="other-actions">
-				<text @click="goToRegister">立即注册</text>
-				<text @click="goToForgotPassword">忘记密码</text>
+				<text @tap="goToRegister">立即注册</text>
+				<text @tap="goToForgotPassword">忘记密码</text>
 			</view>
 
 			<!-- 第三方登录 -->
@@ -59,10 +61,10 @@
 					<text>其他登录方式</text>
 				</view>
 				<view class="login-buttons">
-					<u-button type="success" plain @click="wechatLogin">
-						<u-icon name="weixin" size="32"></u-icon>
+					<button class="wechat-btn" @tap="wechatLogin">
+						<text class="iconfont icon-weixin wechat-icon"></text>
 						微信登录
-					</u-button>
+					</button>
 				</view>
 			</view>
 		</view>
@@ -190,15 +192,97 @@ export default {
 	align-items: center;
 	justify-content: center;
 	padding: 40rpx;
-}
-
 .login-form {
 	background: #fff;
 	border-radius: 20rpx;
 	padding: 60rpx 40rpx;
 	width: 100%;
 	max-width: 600rpx;
-	box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+	width: 120rpx;
+	height: 120rpx;
+}
+
+.form-container {
+	margin-top: 60rpx;
+}
+
+.form-item {
+	display: flex;
+	align-items: center;
+	border-bottom: 1rpx solid #e5e5e5;
+	padding: 20rpx 0;
+	margin-bottom: 30rpx;
+}
+
+.form-icon {
+	font-size: 40rpx;
+	color: #999;
+	margin-right: 20rpx;
+	width: 40rpx;
+}
+
+.form-input {
+	flex: 1;
+	font-size: 30rpx;
+	border: none;
+	outline: none;
+	background: transparent;
+}
+
+.code-btn {
+	background: transparent;
+	color: #007AFF;
+	border: 1rpx solid #007AFF;
+	border-radius: 8rpx;
+	font-size: 24rpx;
+	padding: 10rpx 20rpx;
+	margin-left: 20rpx;
+}
+
+.code-btn:disabled {
+	color: #999;
+	border-color: #ccc;
+}
+
+.login-btn {
+	width: 100%;
+	height: 88rpx;
+	background-color: #007AFF;
+	color: #fff;
+	border-radius: 44rpx;
+	font-size: 32rpx;
+	border: none;
+	margin-bottom: 30rpx;
+}
+
+.login-btn:active {
+	background-color: #0066cc;
+}
+
+.wechat-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 88rpx;
+	background-color: #09BB07;
+	color: #fff;
+	border-radius: 44rpx;
+	font-size: 32rpx;
+	border: none;
+}
+
+.wechat-icon {
+	font-size: 40rpx;
+	margin-right: 20rpx;
+}
+
+.wechat-btn:active {
+	background-color: #07a905;
+}box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
 }
 
 .logo-section {

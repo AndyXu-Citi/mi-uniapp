@@ -2,27 +2,34 @@
 	<view class="container">
 		<!-- 轮播图 -->
 		<view class="banner-section">
-			<u-swiper :list="bannerList" height="320" mode="dot" indicator-pos="bottomCenter"></u-swiper>
+			<swiper class="banner-swiper" :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
+				<swiper-item v-for="(item, index) in bannerList" :key="index">
+					<image :src="item.image" class="banner-image" mode="aspectFill"></image>
+				</swiper-item>
+			</swiper>
 		</view>
 
 		<!-- 搜索栏 -->
 		<view class="search-section">
-			<u-search 
-				placeholder="搜索马拉松赛事" 
-				v-model="searchKeyword"
-				:show-action="false"
-				@search="handleSearch"
-			></u-search>
+			<view class="search-bar">
+				<text class="iconfont icon-search"></text>
+				<input 
+					class="search-input"
+					v-model="searchKeyword"
+					placeholder="搜索马拉松赛事"
+					@confirm="handleSearch"
+				/>
+			</view>
 		</view>
 
 		<!-- 分类导航 -->
 		<view class="category-section">
-			<u-grid :col="4" :border="false">
-				<u-grid-item v-for="(item, index) in categoryList" :key="index" @click="handleCategoryClick(item)">
-					<u-image :src="item.icon" width="48" height="48"></u-image>
+			<view class="category-grid">
+				<view class="category-item" v-for="(item, index) in categoryList" :key="index" @tap="handleCategoryClick(item)">
+					<image :src="item.icon" class="category-icon" mode="aspectFit"></image>
 					<text class="category-name">{{ item.name }}</text>
-				</u-grid-item>
-			</u-grid>
+				</view>
+			</view>
 		</view>
 
 		<!-- 热门赛事 -->
@@ -184,10 +191,61 @@ export default {
 	margin-bottom: 20rpx;
 }
 
+.category-grid {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	padding: 20rpx 0;
+}
+
+.category-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 25%;
+}
+
+.category-icon {
+	width: 48rpx;
+	height: 48rpx;
+	margin-bottom: 10rpx;
+}
+
 .category-name {
 	font-size: 24rpx;
 	color: #666;
 	margin-top: 10rpx;
+}
+
+.banner-swiper {
+	width: 100%;
+	height: 320rpx;
+}
+
+.banner-image {
+	width: 100%;
+	height: 100%;
+}
+
+.search-bar {
+	display: flex;
+	align-items: center;
+	background-color: #f5f5f5;
+	border-radius: 40rpx;
+	padding: 20rpx 30rpx;
+}
+
+.icon-search {
+	font-size: 32rpx;
+	color: #999;
+	margin-right: 20rpx;
+}
+
+.search-input {
+	flex: 1;
+	font-size: 28rpx;
+	border: none;
+	background: transparent;
 }
 
 .section {

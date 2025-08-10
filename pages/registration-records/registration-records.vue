@@ -1,11 +1,23 @@
 <template>
 	<view class="container">
 		<!-- 顶部导航 -->
-		<u-navbar title="报名记录" :is-back="false"></u-navbar>
+		<view class="navbar">
+			<text class="nav-title">报名记录</text>
+		</view>
 
 		<!-- 筛选标签 -->
 		<view class="filter-tabs">
-			<u-tabs :list="tabList" v-model="currentTab" active-color="#007AFF" inactive-color="#666"></u-tabs>
+			<view class="tab-list">
+				<view 
+					class="tab-item"
+					v-for="(tab, index) in tabList" 
+					:key="index"
+					:class="{ active: currentTab === index }"
+					@tap="currentTab = index"
+				>
+					{{ tab.name }}
+				</view>
+			</view>
 		</view>
 
 		<!-- 报名列表 -->
@@ -15,10 +27,10 @@
 					v-for="item in filteredRegistrations" 
 					:key="item.id" 
 					class="registration-card"
-					@click="goToRegistrationDetail(item.id)"
+					@tap="goToRegistrationDetail(item.id)"
 				>
 					<view class="event-info">
-						<u-image :src="item.event.image" width="120" height="80" mode="aspectFill"></u-image>
+						<image :src="item.event.image" class="event-image" mode="aspectFill"></image>
 						<view class="event-details">
 							<text class="event-title">{{ item.event.title }}</text>
 							<text class="event-date">{{ item.event.date }}</text>
@@ -26,7 +38,7 @@
 						</view>
 					</view>
 					<view class="registration-status">
-						<u-tag :text="item.status" :type="getStatusType(item.status)" size="mini"></u-tag>
+						<text class="status-tag" :class="getStatusClass(item.status)">{{ item.status }}</text>
 						<text class="registration-time">报名时间：{{ item.registrationTime }}</text>
 					</view>
 				</view>
@@ -34,8 +46,9 @@
 
 			<!-- 空状态 -->
 			<view v-else class="empty-state">
-				<u-empty text="暂无报名记录" mode="list"></u-empty>
-				<u-button type="primary" @click="goToSearch" class="search-btn">去发现赛事</u-button>
+				<image class="empty-icon" src="/static/images/empty-list.png" mode="aspectFit"></image>
+				<text class="empty-text">暂无报名记录</text>
+				<button class="search-btn" @tap="goToSearch">去发现赛事</button>
 			</view>
 		</view>
 	</view>
@@ -119,14 +132,14 @@ export default {
 			// 从API获取报名记录
 			console.log('加载报名记录')
 		},
-		getStatusType(status) {
-			const typeMap = {
-				'报名成功': 'success',
-				'待付款': 'warning',
-				'已完成': 'info',
-				'已取消': 'error'
+		getStatusClass(status) {
+			const classMap = {
+				'报名成功': 'status-success',
+				'待付款': 'status-warning',
+				'已完成': 'status-info',
+				'已取消': 'status-error'
 			}
-			return typeMap[status] || 'primary'
+			return classMap[status] || 'status-primary'
 		},
 		goToRegistrationDetail(id) {
 			uni.navigateTo({
@@ -148,9 +161,46 @@ export default {
 	min-height: 100vh;
 }
 
+.navbar {
+	height: 88rpx;
+	background-color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-bottom: 1rpx solid #f0f0f0;
+	position: sticky;
+	top: 0;
+	z-index: 100;
+}
+
+.nav-title {
+	font-size: 36rpx;
+	font-weight: bold;
+	color: #333;
+}
+
 .filter-tabs {
 	background: #fff;
 	margin-bottom: 20rpx;
+}
+
+.tab-list {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	padding: 0 20rpx;
+}
+
+.tab-item {
+	padding: 20rpx 0;
+	font-size: 28rpx;
+	color: #666;
+	border-bottom: 2rpx solid transparent;
+}
+
+.tab-item.active {
+	color: #007AFF;
+	border-bottom-color: #007AFF;
 }
 
 .content {
@@ -172,6 +222,12 @@ export default {
 .event-info {
 	display: flex;
 	margin-bottom: 20rpx;
+}
+
+.event-image {
+	width: 120rpx;
+	height: 80rpx;
+	border-radius: 8rpx;
 }
 
 .event-details {
@@ -201,6 +257,30 @@ export default {
 	align-items: center;
 }
 
+.status-tag {
+	padding: 5rpx 15rpx;
+	border-radius: 15rpx;
+	font-size: 24rpx;
+	color: #fff;
+}
+
+.status-success {
+	background-color: #52c41a;
+}
+
+.status-warning {
+	background-color: #faad14;
+	color: #333;
+}
+
+.status-info {
+	background-color: #1890ff;
+}
+
+.status-error {
+	background-color: #ff4d4f;
+}
+
 .registration-time {
 	font-size: 24rpx;
 	color: #999;
@@ -214,8 +294,29 @@ export default {
 	padding: 200rpx 40rpx;
 }
 
-.search-btn {
-	margin-top: 40rpx;
+.empty-icon {
 	width: 200rpx;
+	height: 200rpx;
+	margin-bottom: 20rpx;
+}
+
+.empty-text {
+	color: #999;
+	font-size: 28rpx;
+	margin-bottom: 40rpx;
+}
+
+.search-btn {
+	width: 200rpx;
+	height: 70rpx;
+	background-color: #007AFF;
+	color: #fff;
+	border-radius: 35rpx;
+	font-size: 28rpx;
+	border: none;
+}
+
+.search-btn:active {
+	background-color: #0066cc;
 }
 </style>

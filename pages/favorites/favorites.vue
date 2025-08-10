@@ -1,7 +1,9 @@
 <template>
 	<view class="container">
 		<!-- 顶部导航 -->
-		<u-navbar title="我的收藏" :is-back="false"></u-navbar>
+		<view class="navbar">
+			<text class="nav-title">我的收藏</text>
+		</view>
 
 		<!-- 收藏列表 -->
 		<view class="content">
@@ -10,14 +12,15 @@
 					v-for="event in favoriteList" 
 					:key="event.id" 
 					:event="event"
-					@click="goToEventDetail(event.id)"
+					@tap="goToEventDetail(event.id)"
 				></event-card>
 			</view>
 
 			<!-- 空状态 -->
 			<view v-else class="empty-state">
-				<u-empty text="暂无收藏的赛事" mode="favor"></u-empty>
-				<u-button type="primary" @click="goToSearch" class="search-btn">去发现赛事</u-button>
+				<image class="empty-icon" src="/static/images/empty-favor.png" mode="aspectFit"></image>
+				<text class="empty-text">暂无收藏的赛事</text>
+				<button class="search-btn" @tap="goToSearch">去发现赛事</button>
 			</view>
 		</view>
 	</view>
@@ -95,6 +98,24 @@ export default {
 	min-height: 100vh;
 }
 
+.navbar {
+	height: 88rpx;
+	background-color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-bottom: 1rpx solid #f0f0f0;
+	position: sticky;
+	top: 0;
+	z-index: 100;
+}
+
+.nav-title {
+	font-size: 36rpx;
+	font-weight: bold;
+	color: #333;
+}
+
 .content {
 	padding: 20rpx;
 }
@@ -111,8 +132,29 @@ export default {
 	padding: 200rpx 40rpx;
 }
 
-.search-btn {
-	margin-top: 40rpx;
+.empty-icon {
 	width: 200rpx;
+	height: 200rpx;
+	margin-bottom: 20rpx;
+}
+
+.empty-text {
+	color: #999;
+	font-size: 28rpx;
+	margin-bottom: 40rpx;
+}
+
+.search-btn {
+	width: 200rpx;
+	height: 70rpx;
+	background-color: #007AFF;
+	color: #fff;
+	border-radius: 35rpx;
+	font-size: 28rpx;
+	border: none;
+}
+
+.search-btn:active {
+	background-color: #0066cc;
 }
 </style>

@@ -3,18 +3,18 @@
 		<!-- 用户信息 -->
 		<view class="user-info">
 			<view class="avatar-section">
-				<u-avatar :src="userInfo.avatar || '/static/images/default-avatar.png'" size="120"></u-avatar>
+				<image class="avatar" :src="userInfo.avatar || '/static/images/default-avatar.png'" mode="aspectFill"></image>
 				<view class="user-details">
 					<text class="username">{{ userInfo.name || '未登录' }}</text>
 					<text class="user-id">ID: {{ userInfo.id || '000000' }}</text>
 				</view>
 			</view>
 			<view class="stats-section">
-				<view class="stat-item" @click="goToRegistrationRecords">
+				<view class="stat-item" @tap="goToRegistrationRecords">
 					<text class="stat-number">{{ stats.registrationCount }}</text>
 					<text class="stat-label">已报名</text>
 				</view>
-				<view class="stat-item" @click="goToFavorites">
+				<view class="stat-item" @tap="goToFavorites">
 					<text class="stat-number">{{ stats.favoriteCount }}</text>
 					<text class="stat-label">收藏</text>
 				</view>
@@ -27,37 +27,33 @@
 
 		<!-- 功能菜单 -->
 		<view class="menu-section">
-			<u-cell-group>
-				<u-cell-item 
-					icon="order" 
-					title="我的报名" 
-					@click="goToRegistrationRecords"
-					arrow-direction="right"
-				></u-cell-item>
-				<u-cell-item 
-					icon="star" 
-					title="我的收藏" 
-					@click="goToFavorites"
-					arrow-direction="right"
-				></u-cell-item>
-				<u-cell-item 
-					icon="setting" 
-					title="账号设置" 
-					@click="goToSettings"
-					arrow-direction="right"
-				></u-cell-item>
-				<u-cell-item 
-					icon="info-circle" 
-					title="关于我们" 
-					@click="goToAbout"
-					arrow-direction="right"
-				></u-cell-item>
-			</u-cell-group>
+			<view class="menu-list">
+				<view class="menu-item" @tap="goToRegistrationRecords">
+					<text class="iconfont icon-order menu-icon"></text>
+					<text class="menu-title">我的报名</text>
+					<text class="arrow-right">></text>
+				</view>
+				<view class="menu-item" @tap="goToFavorites">
+					<text class="iconfont icon-star menu-icon"></text>
+					<text class="menu-title">我的收藏</text>
+					<text class="arrow-right">></text>
+				</view>
+				<view class="menu-item" @tap="goToSettings">
+					<text class="iconfont icon-setting menu-icon"></text>
+					<text class="menu-title">账号设置</text>
+					<text class="arrow-right">></text>
+				</view>
+				<view class="menu-item" @tap="goToAbout">
+					<text class="iconfont icon-info-circle menu-icon"></text>
+					<text class="menu-title">关于我们</text>
+					<text class="arrow-right">></text>
+				</view>
+			</view>
 		</view>
 
 		<!-- 退出登录 -->
 		<view class="logout-section" v-if="isLoggedIn">
-			<u-button type="error" @click="handleLogout">退出登录</u-button>
+			<button class="logout-btn" @tap="handleLogout">退出登录</button>
 		</view>
 	</view>
 </template>
@@ -151,6 +147,13 @@ export default {
 	margin-bottom: 40rpx;
 }
 
+.avatar {
+	width: 120rpx;
+	height: 120rpx;
+	border-radius: 50%;
+	border: 4rpx solid rgba(255, 255, 255, 0.3);
+}
+
 .user-details {
 	margin-left: 30rpx;
 }
@@ -195,7 +198,53 @@ export default {
 	margin-bottom: 20rpx;
 }
 
+.menu-list {
+	padding: 0 30rpx;
+}
+
+.menu-item {
+	display: flex;
+	align-items: center;
+	padding: 30rpx 0;
+	border-bottom: 1rpx solid #f0f0f0;
+}
+
+.menu-item:last-child {
+	border-bottom: none;
+}
+
+.menu-icon {
+	font-size: 32rpx;
+	margin-right: 20rpx;
+	color: #007AFF;
+}
+
+.menu-title {
+	flex: 1;
+	font-size: 30rpx;
+	color: #333;
+}
+
+.arrow-right {
+	color: #999;
+	font-size: 28rpx;
+}
+
 .logout-section {
 	padding: 40rpx;
+}
+
+.logout-btn {
+	width: 100%;
+	height: 88rpx;
+	background-color: #ff4757;
+	color: #fff;
+	border-radius: 44rpx;
+	font-size: 32rpx;
+	border: none;
+}
+
+.logout-btn:active {
+	background-color: #ff3838;
 }
 </style>
