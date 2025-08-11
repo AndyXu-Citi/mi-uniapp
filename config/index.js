@@ -26,7 +26,7 @@ const config = {
 	
 	// 微信配置
 	wechat: {
-		appId: 'your-wechat-appid',
+		appId: 'wx21a3d7f98708c369',
 		scope: 'snsapi_userinfo'
 	},
 	
