@@ -2,7 +2,7 @@
 const config = {
 	// 基础配置
 	baseURL: process.env.NODE_ENV === 'development' 
-		? 'http://localhost:8080/api' 
+		? 'http://localhost:8081/api'
 		: 'https://your-domain.com/api',
 	
 	// 应用信息

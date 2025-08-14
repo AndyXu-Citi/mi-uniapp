@@ -90,19 +90,33 @@ export const eventApi = {
 		method: 'GET',
 		data: params
 	}),
-	
+    getEventList1: (params) => request({
+        url: '/events/list',
+        method: 'GET',
+        data: params
+    }),
 	// 获取赛事详情
 	getEventDetail: (id) => request({
 		url: `/events/${id}`,
 		method: 'GET'
 	}),
 	
-	// 搜索赛事
-	searchEvents: (params) => request({
-		url: '/events/search',
-		method: 'GET',
-		data: params
-	}),
+	// // 搜索赛事
+	// searchEvents: (params) => request({
+	// 	url: '/events/search',
+	// 	method: 'GET',
+	// 	data: params
+	// }),
+
+    // 搜索赛事
+    searchEvents: (requestBody) => request({
+        url: '/events/search',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+    }),
 	
 	// 获取热门赛事
 	getHotEvents: () => request({
@@ -111,7 +125,7 @@ export const eventApi = {
 	}),
 	
 	// 获取即将开始赛事
-	getUpcomingEvents: () => request({
+	getupComingEvents: () => request({
 		url: '/events/upcoming',
 		method: 'GET'
 	})

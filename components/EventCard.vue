@@ -62,18 +62,23 @@ export default {
 	overflow: hidden;
 	margin-bottom: 20rpx;
 	box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+	display: flex;
 }
 
 .event-image {
+	width: 60%;
+	padding: 16rpx;
 	position: relative;
-	height: 200rpx;
+	height: 280rpx;
 }
-
+.event-info {
+	flex: 1;
+	padding: 20rpx;
+}
 .event-img {
 	width: 100%;
-	height: 200rpx;
+	height: 280rpx;
 }
-
 .event-status {
 	position: absolute;
 	top: 20rpx;
@@ -91,13 +96,8 @@ export default {
 .status-upcoming {
 	background-color: #ff9500;
 }
-
 .status-ended {
 	background-color: #999;
-}
-
-.event-info {
-	padding: 20rpx;
 }
 
 .event-title {

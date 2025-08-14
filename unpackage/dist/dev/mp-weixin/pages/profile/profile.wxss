@@ -1,0 +1,99 @@
+.container.data-v-60cb334c {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  padding-bottom: 40rpx;
+}
+.user-info.data-v-60cb334c {
+  background: linear-gradient(135deg, #007AFF 0%, #5AC8FA 100%);
+  color: #fff;
+  padding: 60rpx 40rpx 40rpx;
+  margin-bottom: 20rpx;
+}
+.avatar-section.data-v-60cb334c {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+.avatar.data-v-60cb334c {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  border: 4rpx solid rgba(255, 255, 255, 0.3);
+}
+.user-details.data-v-60cb334c {
+  margin-left: 30rpx;
+}
+.username.data-v-60cb334c {
+  font-size: 36rpx;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10rpx;
+}
+.user-id.data-v-60cb334c {
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+.stats-section.data-v-60cb334c {
+  display: flex;
+  justify-content: space-around;
+}
+.stat-item.data-v-60cb334c {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx;
+}
+.stat-number.data-v-60cb334c {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+.stat-label.data-v-60cb334c {
+  font-size: 24rpx;
+  opacity: 0.9;
+}
+.menu-section.data-v-60cb334c {
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+.menu-list.data-v-60cb334c {
+  padding: 0 30rpx;
+}
+.menu-item.data-v-60cb334c {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+.menu-item.data-v-60cb334c:last-child {
+  border-bottom: none;
+}
+.menu-icon.data-v-60cb334c {
+  font-size: 32rpx;
+  margin-right: 20rpx;
+  color: #007AFF;
+}
+.menu-title.data-v-60cb334c {
+  flex: 1;
+  font-size: 30rpx;
+  color: #333;
+}
+.arrow-right.data-v-60cb334c {
+  color: #999;
+  font-size: 28rpx;
+}
+.logout-section.data-v-60cb334c {
+  padding: 40rpx;
+}
+.logout-btn.data-v-60cb334c {
+  width: 100%;
+  height: 88rpx;
+  background-color: #ff4757;
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  border: none;
+}
+.logout-btn.data-v-60cb334c:active {
+  background-color: #ff3838;
+}
