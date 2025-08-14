@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 马拉松报名</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            height: 100%;
+            overflow-y: auto;
+        }
+        .status-bar {
+            height: 24px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 12px;
+            font-size: 12px;
+        }
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #eaeaea;
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            color: #999;
+        }
+        .tab-item.active {
+            color: #3b82f6;
+        }
+        .tab-icon {
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+        .content-container {
+            padding-bottom: 60px;
+        }
+        .user-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ffffff;
+        }
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        .menu-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            margin-right: 12px;
+            color: #ffffff;
+        }
+        .bg-gradient-blue {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+        }
+        .bg-gradient-green {
+            background: linear-gradient(135deg, #34d399, #10b981);
+        }
+        .bg-gradient-yellow {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        }
+        .bg-gradient-red {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+        }
+        .bg-gradient-purple {
+            background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+        }
+        .bg-gradient-pink {
+            background: linear-gradient(135deg, #f472b6, #ec4899);
+        }
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .stat-value {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+        .badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            background-color: #ef4444;
+            color: #ffffff;
+            position: absolute;
+            top: -4px;
+            right: -4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <span>20:30</span>
+        <div>
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi ml-1"></i>
+            <i class="fas fa-battery-full ml-1"></i>
+        </div>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="content-container">
+        <!-- 用户信息 -->
+        <div class="bg-blue-500 p-4">
+            <div class="flex items-center">
+                <img src="https://via.placeholder.com/128?text=User" alt="用户头像" class="user-avatar">
+                <div class="ml-4 text-white">
+                    <h2 class="text-lg font-medium">张三</h2>
+                    <p class="text-sm opacity-80">跑步爱好者</p>
+                </div>
+                <button class="ml-auto bg-white bg-opacity-20 text-white text-xs px-3 py-1 rounded-full">
+                    编辑资料
+                </button>
+            </div>
+            <div class="flex justify-around mt-6">
+                <div class="stat-item text-white">
+                    <span class="stat-value">5</span>
+                    <span class="stat-label text-white text-opacity-80">已报名</span>
+                </div>
+                <div class="stat-item text-white">
+                    <span class="stat-value">3</span>
+                    <span class="stat-label text-white text-opacity-80">已完成</span>
+                </div>
+                <div class="stat-item text-white">
+                    <span class="stat-value">42.2</span>
+                    <span class="stat-label text-white text-opacity-80">最长距离(km)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 我的订单 -->
+        <div class="bg-white mt-3 p-4 rounded-lg">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-medium">我的订单</h3>
+                <a href="#" class="text-sm text-gray-500">全部订单 <i class="fas fa-chevron-right ml-1 text-xs"></i></a>
+            </div>
+            <div class="flex justify-around">
+                <div class="flex flex-col items-center">
+                    <div class="relative">
+                        <i class="fas fa-clipboard-list text-2xl text-blue-500"></i>
+                        <span class="badge">2</span>
+                    </div>
+                    <span class="text-xs mt-2">待付款</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="relative">
+                        <i class="fas fa-running text-2xl text-green-500"></i>
+                        <span class="badge">1</span>
+                    </div>
+                    <span class="text-xs mt-2">待参赛</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <i class="fas fa-medal text-2xl text-yellow-500"></i>
+                    <span class="text-xs mt-2">已完成</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <i class="fas fa-comment-dots text-2xl text-gray-400"></i>
+                    <span class="text-xs mt-2">待评价</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 我的服务 -->
+        <div class="bg-white mt-3 p-4 rounded-lg">
+            <h3 class="font-medium mb-4">我的服务</h3>
+            <div class="grid grid-cols-4 gap-4">
+                <div class="flex flex-col items-center">
+                    <div class="bg-gradient-blue menu-icon rounded-lg mb-2">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <span class="text-xs">实名认证</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="bg-gradient-green menu-icon rounded-lg mb-2">
+                        <i class="fas fa-file-medical"></i>
+                    </div>
+                    <span class="text-xs">体检报告</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="bg-gradient-yellow menu-icon rounded-lg mb-2">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <span class="text-xs">我的成绩</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="bg-gradient-red menu-icon rounded-lg mb-2">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <span class="text-xs">完赛证书</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="bg-gradient-purple menu-icon rounded-lg mb-2">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <span class="text-xs">赛事地图</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="bg-gradient-pink menu-icon rounded-lg mb-2">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <span class="text-xs">赛事照片</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="bg-gradient-blue menu-icon rounded-lg mb-2">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <span class="text-xs">跑团</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="bg-gray-400 menu-icon rounded-lg mb-2">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </div>
+                    <span class="text-xs">更多</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 设置菜单 -->
+        <div class="bg-white mt-3 p-4 rounded-lg">
+            <div class="menu-item">
+                <div class="flex items-center">
+                    <i class="fas fa-bell text-blue-500 mr-3"></i>
+                    <span>消息通知</span>
+                </div>
+                <div class="flex items-center text-gray-400">
+                    <span class="text-xs mr-1">有新消息</span>
+                    <i class="fas fa-chevron-right text-xs"></i>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="flex items-center">
+                    <i class="fas fa-wallet text-green-500 mr-3"></i>
+                    <span>我的钱包</span>
+                </div>
+                <div class="flex items-center text-gray-400">
+                    <i class="fas fa-chevron-right text-xs"></i>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="flex items-center">
+                    <i class="fas fa-headset text-yellow-500 mr-3"></i>
+                    <span>客服中心</span>
+                </div>
+                <div class="flex items-center text-gray-400">
+                    <i class="fas fa-chevron-right text-xs"></i>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="flex items-center">
+                    <i class="fas fa-cog text-gray-500 mr-3"></i>
+                    <span>设置</span>
+                </div>
+                <div class="flex items-center text-gray-400">
+                    <i class="fas fa-chevron-right text-xs"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 退出登录 -->
+        <div class="p-4">
+            <button class="w-full py-3 text-center text-gray-500 bg-white rounded-lg">
+                退出登录
+            </button>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <div class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </div>
+        <div class="tab-item">
+            <i class="fas fa-search tab-icon"></i>
+            <span>搜索</span>
+        </div>
+        <div class="tab-item">
+            <i class="fas fa-heart tab-icon"></i>
+            <span>收藏</span>
+        </div>
+        <div class="tab-item active">
+            <i class="fas fa-user tab-icon"></i>
+            <span>我的</span>
+        </div>
+    </div>
+</body>
+</html>
