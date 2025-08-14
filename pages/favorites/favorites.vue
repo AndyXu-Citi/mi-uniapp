@@ -61,11 +61,30 @@ export default {
 		this.loadFavorites()
 	},
 	methods: {
-		loadFavorites() {
-			// 从本地存储或API获取收藏列表
-			const favorites = uni.getStorageSync('favorites') || []
-			this.favoriteList = favorites
-		},
+		async loadFavorites() {
+		    try {
+		      uni.showLoading({ title: '加载中...' });
+		      
+		      const res = await this.$api.favoriteApi.getFavorites();
+		      console.log('获取收藏结果', res);
+		      
+		      // 根据你的API返回结构调整
+		      if (res && res.data && res.data.records) {
+		        // this.favoriteList = res.data.records;
+		        // uni.setStorageSync('favorites', this.favoriteList); // 如果需要本地存储
+		      } else {
+		        throw new Error(res.message || '数据格式错误');
+		      }
+		    } catch (error) {
+		      console.error('加载失败:', error);
+		      uni.showToast({
+		        title: error.message || '加载失败',
+		        icon: 'none'
+		      });
+		    } finally {
+		      uni.hideLoading();
+		    }
+		  },
 		goToEventDetail(id) {
 			uni.navigateTo({
 				url: `/pages/event-detail/event-detail?id=${id}`

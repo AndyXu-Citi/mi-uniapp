@@ -351,6 +351,8 @@ var _default = {
     },
     toggleFavorite: function toggleFavorite() {
       this.isFavorite = !this.isFavorite;
+      var res = this.$api.favoriteApi.addFavorite(100);
+      console.log("收藏成功");
       uni.showToast({
         title: this.isFavorite ? '收藏成功' : '取消收藏',
         icon: 'none'

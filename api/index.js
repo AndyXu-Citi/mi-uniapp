@@ -141,9 +141,8 @@ export const favoriteApi = {
 	
 	// 添加收藏
 	addFavorite: (eventId) => request({
-		url: '/favorites',
-		method: 'POST',
-		data: { eventId }
+		url: `/favorites/${eventId}`,
+		method: 'POST'
 	}),
 	
 	// 取消收藏

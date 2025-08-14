@@ -146,10 +146,13 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {
 
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 34));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 36));
 var EventCard = function EventCard() {
   __webpack_require__.e(/*! require.ensure | components/EventCard */ "components/EventCard").then((function () {
     return resolve(__webpack_require__(/*! @/components/EventCard.vue */ 115));
@@ -185,9 +188,54 @@ var _default = {
   },
   methods: {
     loadFavorites: function loadFavorites() {
-      // 从本地存储或API获取收藏列表
-      var favorites = uni.getStorageSync('favorites') || [];
-      this.favoriteList = favorites;
+      var _this = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
+        var res;
+        return _regenerator.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                uni.showLoading({
+                  title: '加载中...'
+                });
+                _context.next = 4;
+                return _this.$api.favoriteApi.getFavorites();
+              case 4:
+                res = _context.sent;
+                console.log('获取收藏结果', res);
+
+                // 根据你的API返回结构调整
+                if (!(res && res.data && res.data.records)) {
+                  _context.next = 9;
+                  break;
+                }
+                _context.next = 10;
+                break;
+              case 9:
+                throw new Error(res.message || '数据格式错误');
+              case 10:
+                _context.next = 16;
+                break;
+              case 12:
+                _context.prev = 12;
+                _context.t0 = _context["catch"](0);
+                console.error('加载失败:', _context.t0);
+                uni.showToast({
+                  title: _context.t0.message || '加载失败',
+                  icon: 'none'
+                });
+              case 16:
+                _context.prev = 16;
+                uni.hideLoading();
+                return _context.finish(16);
+              case 19:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 12, 16, 19]]);
+      }))();
     },
     goToEventDetail: function goToEventDetail(id) {
       uni.navigateTo({

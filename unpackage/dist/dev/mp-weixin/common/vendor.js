@@ -12059,11 +12059,8 @@ var favoriteApi = {
   // 添加收藏
   addFavorite: function addFavorite(eventId) {
     return request({
-      url: '/favorites',
-      method: 'POST',
-      data: {
-        eventId: eventId
-      }
+      url: "/favorites/".concat(eventId),
+      method: 'POST'
     });
   },
   // 取消收藏
