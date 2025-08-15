@@ -8,7 +8,8 @@
     "pages/profile/profile",
     "pages/registration/registration",
     "pages/registration-records/registration-records",
-    "pages/login/login"
+    "pages/login/login",
+    "pages/login/login-debug"
   ],
   "subPackages": [],
   "window": {

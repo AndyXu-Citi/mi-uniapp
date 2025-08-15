@@ -137,10 +137,14 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {
 
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 34));
+var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 36));
 //
 //
 //
@@ -316,10 +320,84 @@ var _default = {
       });
     },
     wechatLogin: function wechatLogin() {
-      uni.showToast({
-        title: '微信登录功能开发中',
-        icon: 'none'
-      });
+      var _this3 = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
+        var _yield$uni$login, _yield$uni$login2, err, res, loginRes;
+        return _regenerator.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                uni.showLoading({
+                  title: '微信登录中...'
+                });
+                _context.prev = 1;
+                _context.next = 4;
+                return uni.login({
+                  provider: 'weixin'
+                });
+              case 4:
+                _yield$uni$login = _context.sent;
+                _yield$uni$login2 = (0, _slicedToArray2.default)(_yield$uni$login, 2);
+                err = _yield$uni$login2[0];
+                res = _yield$uni$login2[1];
+                if (!res.code) {
+                  _context.next = 15;
+                  break;
+                }
+                _context.next = 11;
+                return _this3.$api.userApi.login({
+                  code: res.code,
+                  loginType: 'wechat'
+                });
+              case 11:
+                loginRes = _context.sent;
+                if (loginRes.code === 200) {
+                  _this3.$store.commit('SET_USER_INFO', loginRes.data.userInfo);
+                  _this3.$store.commit('SET_TOKEN', loginRes.data.token);
+                  uni.hideLoading();
+                  uni.showToast({
+                    title: '微信登录成功',
+                    icon: 'success'
+                  });
+                  setTimeout(function () {
+                    uni.switchTab({
+                      url: '/pages/index/index'
+                    });
+                  }, 1500);
+                } else {
+                  uni.hideLoading();
+                  uni.showToast({
+                    title: loginRes.message || '微信登录失败',
+                    icon: 'none'
+                  });
+                }
+                _context.next = 17;
+                break;
+              case 15:
+                uni.hideLoading();
+                uni.showToast({
+                  title: '获取微信授权失败',
+                  icon: 'none'
+                });
+              case 17:
+                _context.next = 24;
+                break;
+              case 19:
+                _context.prev = 19;
+                _context.t0 = _context["catch"](1);
+                uni.hideLoading();
+                uni.showToast({
+                  title: '微信登录异常',
+                  icon: 'none'
+                });
+                console.error('微信登录失败', _context.t0);
+              case 24:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[1, 19]]);
+      }))();
     },
     goToRegister: function goToRegister() {
       uni.navigateTo({

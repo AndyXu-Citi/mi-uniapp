@@ -9,6 +9,8 @@ const store = new Vuex.Store({
 		token: uni.getStorageSync('token') || '',
 		// 用户信息
 		userInfo: uni.getStorageSync('userInfo') || {},
+		// 登录状态
+		isLoggedIn: uni.getStorageSync('isLoggedIn') || true,
 		// 系统信息
 		systemInfo: {},
 		// 全局加载状态

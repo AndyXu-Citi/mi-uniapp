@@ -9729,6 +9729,8 @@ var store = new _vuex.default.Store({
     token: uni.getStorageSync('token') || '',
     // 用户信息
     userInfo: uni.getStorageSync('userInfo') || {},
+    // 登录状态
+    isLoggedIn: uni.getStorageSync('isLoggedIn') || true,
     // 系统信息
     systemInfo: {},
     // 全局加载状态
@@ -11908,9 +11910,11 @@ var request = function request(options) {
     uni.request({
       url: _index.default.baseURL + options.url,
       method: options.method || 'GET',
-      data: options.data || {},
+      data: options.contentType === 'application/x-www-form-urlencoded' ? Object.keys(options.data).map(function (key) {
+        return encodeURIComponent(key) + '=' + encodeURIComponent(options.data[key]);
+      }).join('&') : options.data || {},
       header: _objectSpread({
-        'Content-Type': 'application/json',
+        'Content-Type': options.contentType || 'application/json',
         'Authorization': uni.getStorageSync('token') || ''
       }, options.header),
       success: function success(res) {
@@ -11963,6 +11967,15 @@ var userApi = {
       data: data
     });
   },
+  // 微信登录
+  wxLogin: function wxLogin(data) {
+    return request({
+      url: '/user/wx-login',
+      method: 'POST',
+      data: data,
+      contentType: 'application/x-www-form-urlencoded'
+    });
+  },
   // 获取用户信息
   getUserInfo: function getUserInfo() {
     return request({
@@ -12012,22 +12025,12 @@ var eventApi = {
       method: 'GET'
     });
   },
-  // // 搜索赛事
-  // searchEvents: (params) => request({
-  // 	url: '/events/search',
-  // 	method: 'GET',
-  // 	data: params
-  // }),
-
   // 搜索赛事
-  searchEvents: function searchEvents(requestBody) {
+  searchEvents: function searchEvents(params) {
     return request({
       url: '/events/search',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(requestBody)
+      method: 'GET',
+      data: params
     });
   },
   // 获取热门赛事
@@ -12059,8 +12062,11 @@ var favoriteApi = {
   // 添加收藏
   addFavorite: function addFavorite(eventId) {
     return request({
-      url: "/favorites/".concat(eventId),
-      method: 'POST'
+      url: '/favorites',
+      method: 'POST',
+      data: {
+        eventId: eventId
+      }
     });
   },
   // 取消收藏

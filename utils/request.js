@@ -87,7 +87,8 @@ const request = (options) => {
       data: options.data,
       method: options.method || 'GET',
       header: options.header || {},
-      timeout: options.timeout || timeout
+      timeout: options.timeout || timeout,
+	    contentType : options.contentType
     }
     
     // 请求拦截

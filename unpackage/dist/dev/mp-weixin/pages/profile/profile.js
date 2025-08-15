@@ -137,10 +137,43 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {
 
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 34));
+var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 36));
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -215,18 +248,162 @@ var _default = {
         favoriteCount: 12,
         completedCount: 3
       },
-      isLoggedIn: true
+      isLoggedIn: true,
+      isHidden: true
     };
   },
   onShow: function onShow() {
     this.loadUserInfo();
   },
-  computed: {},
+  computed: {
+    userInfo: function userInfo() {
+      return this.$store.state.userInfo; // 自动同步
+    },
+    isLoggedIn: function isLoggedIn() {
+      return this.$store.state.isLoggedIn;
+    }
+  },
   methods: {
+    getName: function getName(e) {
+      console.log("getName");
+      console.log(e);
+      this.$data.userInfo.name = e.detail.value;
+    },
+    onChooseAvatar: function onChooseAvatar(e) {
+      console.log("onChooseAvatar");
+      console.log(e);
+      // 正确更新数据的方式（Vue3/uni-app方式）
+      this.userInfo = _objectSpread(_objectSpread({}, this.userInfo), {}, {
+        // 保留其他用户信息
+        avatar: e.detail.avatarUrl // 更新头像
+      });
+
+      console.log(this.$data);
+    },
+    onClickCancelButton: function onClickCancelButton() {
+      this.$data.isHidden = true;
+    },
+    setUserData: function setUserData() {
+      this.$data.isHidden = true;
+      this.$data.isLoggedIn = true;
+      uni.setStorageSync('userInfo', this.userInfo); // 如果需要本地存储
+      uni.setStorageSync("isLoggedIn", true);
+    },
+    onClickConfirmButton: function onClickConfirmButton() {
+      var _this = this;
+      return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee() {
+        var _yield$uni$login, _yield$uni$login2, err, res, params, loginRes;
+        return _regenerator.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                uni.showLoading({
+                  title: '微信登录中...'
+                });
+                _context.prev = 1;
+                _context.next = 4;
+                return uni.login({
+                  provider: 'weixin'
+                });
+              case 4:
+                _yield$uni$login = _context.sent;
+                _yield$uni$login2 = (0, _slicedToArray2.default)(_yield$uni$login, 2);
+                err = _yield$uni$login2[0];
+                res = _yield$uni$login2[1];
+                console.log("res:-->", res);
+                if (!res.code) {
+                  _context.next = 31;
+                  break;
+                }
+                params = {
+                  code: res.code
+                };
+                console.log("params:-->", params);
+                // 发送code到后端进行登录
+                _context.next = 14;
+                return _this.$api.userApi.wxLogin(params);
+              case 14:
+                loginRes = _context.sent;
+                if (!(loginRes.code === 200)) {
+                  _context.next = 27;
+                  break;
+                }
+                _this.$data.isHidden = true;
+                _this.$data.isLoggedIn = true;
+                _context.next = 20;
+                return uni.setStorage({
+                  key: 'userInfo',
+                  data: _this.userInfo
+                });
+              case 20:
+                _context.next = 22;
+                return uni.setStorage({
+                  key: 'isLoggedIn',
+                  data: true
+                });
+              case 22:
+                uni.hideLoading();
+                uni.showToast({
+                  title: '微信登录成功',
+                  icon: 'success'
+                });
+                setTimeout(function () {
+                  uni.redirectTo({
+                    url: '/pages/profile/profile'
+                  });
+
+                  // uni.switchTab({
+                  // 	url: '/pages/index/index'
+                  // })
+                }, 1500);
+                _context.next = 29;
+                break;
+              case 27:
+                uni.hideLoading();
+                uni.showToast({
+                  title: loginRes.message || '微信登录失败',
+                  icon: 'none'
+                });
+              case 29:
+                _context.next = 33;
+                break;
+              case 31:
+                uni.hideLoading();
+                uni.showToast({
+                  title: '获取微信授权失败',
+                  icon: 'none'
+                });
+              case 33:
+                _context.next = 40;
+                break;
+              case 35:
+                _context.prev = 35;
+                _context.t0 = _context["catch"](1);
+                uni.hideLoading();
+                uni.showToast({
+                  title: '微信登录异常',
+                  icon: 'none'
+                });
+                console.error('微信登录失败', _context.t0);
+              case 40:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[1, 35]]);
+      }))();
+    },
+    callLoginPopup: function callLoginPopup() {
+      if (!this.isLoggedIn) {
+        this.$data.isHidden = false;
+      }
+    },
     loadUserInfo: function loadUserInfo() {
       // 从Vuex获取用户信息
-      this.userInfo = this.$store.getters.userInfo || {};
-      this.isLoggedIn = this.$store.getters.isLoggedIn;
+      this.userInfo = uni.getStorageSync('userInfo') || {};
+      this.isLoggedIn = uni.getStorageSync('isLoggedIn');
+      console.log("loadUserInfo", this.userInfo);
+      console.log("loadUserInfo:login", this.isLoggedIn);
     },
     goToRegistrationRecords: function goToRegistrationRecords() {
       uni.navigateTo({
@@ -249,13 +426,13 @@ var _default = {
       });
     },
     handleLogout: function handleLogout() {
-      var _this = this;
+      var _this2 = this;
       uni.showModal({
         title: '提示',
         content: '确定要退出登录吗？',
         success: function success(res) {
           if (res.confirm) {
-            _this.$store.dispatch('logout').then(function () {
+            _this2.$store.dispatch('logout').then(function () {
               uni.reLaunch({
                 url: '/pages/index/index'
               });

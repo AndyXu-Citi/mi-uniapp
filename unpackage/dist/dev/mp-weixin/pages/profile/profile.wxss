@@ -1,3 +1,196 @@
+@charset "UTF-8";
+/* 蒙层：覆盖全屏，半透明背景 */
+.pop_root.data-v-60cb334c {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 999;
+}
+.pop_mask.data-v-60cb334c {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+/* 弹窗内容 */
+.pop_content.data-v-60cb334c {
+  width: 100%;
+  background: #fff;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+/* 标题样式 */
+.pop-title.data-v-60cb334c {
+  font-size: 17px;
+  font-weight: bold;
+  color: #333;
+  padding: 16px;
+  border-bottom: 1px solid #f5f5f5;
+  text-align: center;
+}
+/* 表单项通用布局 */
+.form-item.data-v-60cb334c {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #f5f5f5;
+}
+.label.data-v-60cb334c {
+  font-size: 15px;
+  color: #666;
+  width: 60px;
+  /* 固定标签宽度 */
+  flex-shrink: 0;
+  /* 防止标签被压缩 */
+}
+/* 输入区域容器 - 实现靠右对齐 */
+.input-container.data-v-60cb334c {
+  flex: 1;
+  /* 占据剩余空间 */
+  display: flex;
+  justify-content: flex-end;
+  /* 内容靠右 */
+}
+/* 头像按钮样式 - 圆形设计 */
+.pop_avatar.data-v-60cb334c {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  /* 圆形头像 */
+  border: 1px solid #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: #f8f8f8;
+  padding: 0;
+  margin-left: 400rpx;
+}
+/* 头像图片样式 */
+.avatar_login.data-v-60cb334c {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+/* 未选择头像时的占位文字 - 靠右显示 */
+.placeholder.data-v-60cb334c {
+  font-size: 14px;
+  color: #999;
+  text-align: right;
+  /* 文字靠右 */
+  width: 100%;
+  padding-right: 8px;
+  /* 适当右内边距 */
+}
+/* 昵称输入框样式 - 靠右显示 */
+.getNickNameInput.data-v-60cb334c {
+  width: 100%;
+  height: 36px;
+  line-height: 36px;
+  font-size: 15px;
+  color: #333;
+  text-align: right;
+  /* 输入文本靠右 */
+  padding: 0 8px;
+  margin: 0;
+  border: none;
+}
+/* 底部按钮栏 */
+.bottom-button.data-v-60cb334c {
+  display: flex;
+  margin-top: 12px;
+}
+.bottom-button button.data-v-60cb334c {
+  flex: 1;
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+  font-size: 17px;
+  border: none;
+  outline: none;
+  margin: 0 8px 16px;
+  border-radius: 8px;
+}
+/* 拒绝按钮 */
+.cancel-btn.data-v-60cb334c {
+  color: #666;
+  background: #f5f5f5;
+}
+/* 允许按钮 */
+.confirm-btn.data-v-60cb334c {
+  color: #fff;
+  background: #27d76c;
+}
+.getNickNameInput.data-v-60cb334c {
+  border-color: #f0f0f0;
+  border-style: solid;
+  border-radius: 15rpx;
+  text-align: center;
+  margin-bottom: 30rpx;
+  height: 100rpx;
+}
+.cancel-btn.data-v-60cb334c {
+  margin-right: 200rpx;
+  width: 200rpx;
+}
+.confirm-btn.data-v-60cb334c {
+  width: 200rpx;
+  background: limegreen;
+  color: white;
+}
+/* 头像选择按钮 */
+.pop_avatar.data-v-60cb334c {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  margin: 0 auto 30rpx;
+  padding: 0;
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  border: 2rpx dashed #ddd;
+}
+.bottom-button.data-v-60cb334c {
+  display: flex;
+  flex-direction: row;
+}
+.pop_root.data-v-60cb334c {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+.pop_content.data-v-60cb334c {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top-right-radius: 30rpx;
+  border-top-left-radius: 30rpx;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.pop-tip.data-v-60cb334c {
+  font-size: 32rpx;
+  margin-top: 30rpx;
+  margin-bottom: 30rpx;
+}
 .container.data-v-60cb334c {
   background-color: #f5f5f5;
   min-height: 100vh;
@@ -17,6 +210,12 @@
 .avatar.data-v-60cb334c {
   width: 120rpx;
   height: 120rpx;
+  border-radius: 50%;
+  border: 4rpx solid rgba(255, 255, 255, 0.3);
+}
+.avatar_login.data-v-60cb334c {
+  width: 180rpx;
+  height: 180rpx;
   border-radius: 50%;
   border: 4rpx solid rgba(255, 255, 255, 0.3);
 }

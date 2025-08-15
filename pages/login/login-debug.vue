@@ -4,9 +4,25 @@
 		<view class="login-form">
 			<view class="logo-section">
 				<image src="/static/images/logo.png" class="logo" mode="aspectFit"></image>
-				<text class="app-name">马拉松报名</text>
+				<text class="app-name">马拉松参赛助手</text>
 			</view>
 
+	<!-- 第三方登录 -->
+			<view class="third-party-login">
+				<view class="login-buttons">
+					<button class="wechat-btn" bind:chooseavatar="onChooseAvatar" open-type="chooseAvatar">
+						<text class="iconfont icon-weixin wechat-icon"></text>
+						微信登录
+					</button>
+				</view>
+			</view>
+			
+			
+			<view v-if="false">
+			
+			<view class="divider">
+				<text>其他登录方式</text>
+			</view>
 			<form class="form-container" @submit="handleLogin">
 				<view class="form-item">
 					<text class="iconfont icon-phone form-icon"></text>
@@ -54,18 +70,6 @@
 				<text @tap="goToRegister">立即注册</text>
 				<text @tap="goToForgotPassword">忘记密码</text>
 			</view>
-
-			<!-- 第三方登录 -->
-			<view class="third-party-login">
-				<view class="divider">
-					<text>其他登录方式</text>
-				</view>
-				<view class="login-buttons">
-					<button class="wechat-btn" @tap="wechatLogin">
-						<text class="iconfont icon-weixin wechat-icon"></text>
-						微信登录
-					</button>
-				</view>
 			</view>
 		</view>
 	</view>
@@ -75,7 +79,7 @@
 export default {
 	data() {
 		return {
-
+			avatarUrl: defaultAvatarUrl,
 			loginType: 'password',
 			loginForm: {
 				phone: '',
@@ -165,6 +169,13 @@ export default {
 				})
 			})
 		},
+		 onChooseAvatar(e) {
+			 wx.authorize()
+		    const { avatarUrl } = e.detail 
+		    this.setData({
+		      avatarUrl,
+		    })
+		  },
 		async wechatLogin() {
 			// #ifdef MP-WEIXIN
 			uni.showLoading({

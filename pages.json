@@ -62,7 +62,14 @@
         "navigationBarTitleText": "登录",
         "enablePullDownRefresh": false
       }
-    }
+    },
+	{
+	  "path": "pages/login/login-debug",
+	  "style": {
+	    "navigationBarTitleText": "登录debug",
+	    "enablePullDownRefresh": false
+	  }
+	}
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

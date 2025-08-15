@@ -7,9 +7,9 @@ const request = (options) => {
 		uni.request({
 			url: config.baseURL + options.url,
 			method: options.method || 'GET',
-			data: options.data || {},
+			data: options.contentType === 'application/x-www-form-urlencoded' ? Object.keys(options.data).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(options.data[key])).join('&') : options.data || {},
 			header: {
-				'Content-Type': 'application/json',
+				'Content-Type': options.contentType || 'application/json',
 				'Authorization': uni.getStorageSync('token') || '',
 				...options.header
 			},
@@ -61,7 +61,13 @@ export const userApi = {
 		method: 'POST',
 		data
 	}),
-	
+	// 微信登录
+	wxLogin: (data) => request({
+		url: '/user/wx-login',
+		method: 'POST',
+		data,
+		contentType: 'application/x-www-form-urlencoded'
+	}),
 	// 获取用户信息
 	getUserInfo: () => request({
 		url: '/user/info',
@@ -101,22 +107,12 @@ export const eventApi = {
 		method: 'GET'
 	}),
 	
-	// // 搜索赛事
-	// searchEvents: (params) => request({
-	// 	url: '/events/search',
-	// 	method: 'GET',
-	// 	data: params
-	// }),
-
-    // 搜索赛事
-    searchEvents: (requestBody) => request({
-        url: '/events/search',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestBody)
-    }),
+	// 搜索赛事
+	searchEvents: (params) => request({
+		url: '/events/search',
+		method: 'GET',
+		data: params
+	}),
 	
 	// 获取热门赛事
 	getHotEvents: () => request({
@@ -141,8 +137,9 @@ export const favoriteApi = {
 	
 	// 添加收藏
 	addFavorite: (eventId) => request({
-		url: `/favorites/${eventId}`,
-		method: 'POST'
+		url: '/favorites',
+		method: 'POST',
+		data: { eventId }
 	}),
 	
 	// 取消收藏

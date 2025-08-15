@@ -164,7 +164,7 @@ var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 36));
 var EventCard = function EventCard() {
   __webpack_require__.e(/*! require.ensure | components/EventCard */ "components/EventCard").then((function () {
-    return resolve(__webpack_require__(/*! @/components/EventCard.vue */ 115));
+    return resolve(__webpack_require__(/*! @/components/EventCard.vue */ 123));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
