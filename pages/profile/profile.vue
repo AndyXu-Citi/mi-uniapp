@@ -307,11 +307,12 @@ export default {
 .form-item {
   display: flex;
   align-items: center;
-  padding: 16px;
+  margin: 15rpx;
   border-bottom: 1px solid #f5f5f5;
+  width: 500rpx;
 }
 .label {
-  font-size: 15px;
+  font-size: 12px;
   color: #666;
   width: 60px; /* 固定标签宽度 */
   flex-shrink: 0; /* 防止标签被压缩 */
@@ -324,20 +325,20 @@ export default {
   justify-content: flex-end; /* 内容靠右 */
 }
 
-/* 头像按钮样式 - 圆形设计 */
-.pop_avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%; /* 圆形头像 */
-  border: 1px solid #eee;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  background: #f8f8f8;
-  padding: 0;
-  margin-left: 400rpx;
-}
+// /* 头像按钮样式 - 圆形设计 */
+// .pop_avatar {
+//   width: 40px;
+//   height: 40px;
+//   border-radius: 50%; /* 圆形头像 */
+//   border: 1px solid #eee;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   overflow: hidden;
+//   background: #f8f8f8;
+//   padding: 0;
+//   margin-left: 200rpx;
+// }
 
 /* 头像图片样式 */
 .avatar_login {
@@ -348,7 +349,7 @@ export default {
 
 /* 未选择头像时的占位文字 - 靠右显示 */
 .placeholder {
-  font-size: 14px;
+  font-size: 12px;
   color: #999;
   text-align: right; /* 文字靠右 */
   width: 100%;
@@ -358,7 +359,7 @@ export default {
 /* 昵称输入框样式 - 靠右显示 */
 .getNickNameInput {
   width: 100%;
-  height: 36px;
+  height: 25px;
   line-height: 36px;
   font-size: 15px;
   color: #333;
@@ -419,10 +420,15 @@ export default {
 	}
 	/* 头像选择按钮 */
 .pop_avatar {
-  width: 160rpx;
-  height: 160rpx;
+	
+
+	background: #f8f8f8;
+	margin-left: 200rpx;
+	
+  width: 120rpx;
+  height: 120rpx;
   border-radius: 50%;
-  margin: 0 auto 30rpx;
+  // margin: 0 auto 30rpx;
   padding: 0;
   background-color: #f5f5f5;
   display: flex;
