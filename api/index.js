@@ -10,7 +10,7 @@ const request = (options) => {
 			data: options.contentType === 'application/x-www-form-urlencoded' ? Object.keys(options.data).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(options.data[key])).join('&') : options.data || {},
 			header: {
 				'Content-Type': options.contentType || 'application/json',
-				'Authorization': uni.getStorageSync('token') || '',
+				'Authorization': 'Bearer ' + uni.getStorageSync('tokenId') || '',
 				...options.header
 			},
 			success: (res) => {
@@ -137,9 +137,8 @@ export const favoriteApi = {
 	
 	// 添加收藏
 	addFavorite: (eventId) => request({
-		url: '/favorites',
-		method: 'POST',
-		data: { eventId }
+		url: `/favorites/${eventId}`,
+		method: 'POST'
 	}),
 	
 	// 取消收藏

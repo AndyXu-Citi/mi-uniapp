@@ -89,10 +89,12 @@ export default {
 	data() {
 		return {
 			userInfo: {
-				id: 12345,
-				name: '张三',
+				id:'',
+				name: '',
 				avatar: '/static/images/avatar.jpg',
-				phone: '138****8888'
+				phone: '',
+				tokenId:'',
+				openId:''
 			},
 			stats: {
 				registrationCount: 5,
@@ -156,9 +158,13 @@ export default {
 					console.log("params:-->", params)
 					// 发送code到后端进行登录
 					const loginRes = await this.$api.userApi.wxLogin(params)
+					console.log("loginRes:-->", loginRes)
 					if (loginRes.code === 200) {
 						this.$data.isHidden = true
 						this.$data.isLoggedIn= true
+						this.$data.userInfo.openId = loginRes.data.openId
+						this.$data.userInfo.tokenId = loginRes.data.tokenId
+						this.$data.userInfo.id = loginRes.data.userId
 						await uni.setStorage({
 							key: 'userInfo',
 							data: this.userInfo,
@@ -166,6 +172,10 @@ export default {
 						await uni.setStorage({
 							key: 'isLoggedIn',
 							data: true,
+						});
+						await uni.setStorage({
+							key: 'tokenId',
+							data: loginRes.data.tokenId,
 						});
 						uni.hideLoading()
 						uni.showToast({
