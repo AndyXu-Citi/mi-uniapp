@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "马拉松报名",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "event-card": "/components/EventCard"
+  }
+}

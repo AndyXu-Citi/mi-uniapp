@@ -7,10 +7,10 @@ const request = (options) => {
 		uni.request({
 			url: config.baseURL + options.url,
 			method: options.method || 'GET',
-			data: options.data || {},
+			data: options.contentType === 'application/x-www-form-urlencoded' ? Object.keys(options.data).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(options.data[key])).join('&') : options.data || {},
 			header: {
-				'Content-Type': 'application/json',
-				'Authorization': uni.getStorageSync('token') || '',
+				'Content-Type': options.contentType || 'application/json',
+				'Authorization': 'Bearer ' + uni.getStorageSync('tokenId') || '',
 				...options.header
 			},
 			success: (res) => {
@@ -61,7 +61,13 @@ export const userApi = {
 		method: 'POST',
 		data
 	}),
-	
+	// 微信登录
+	wxLogin: (data) => request({
+		url: '/user/wx-login',
+		method: 'POST',
+		data,
+		contentType: 'application/x-www-form-urlencoded'
+	}),
 	// 获取用户信息
 	getUserInfo: () => request({
 		url: '/user/info',
@@ -90,7 +96,11 @@ export const eventApi = {
 		method: 'GET',
 		data: params
 	}),
-	
+    getEventList1: (params) => request({
+        url: '/events/list',
+        method: 'GET',
+        data: params
+    }),
 	// 获取赛事详情
 	getEventDetail: (id) => request({
 		url: `/events/${id}`,
@@ -111,7 +121,7 @@ export const eventApi = {
 	}),
 	
 	// 获取即将开始赛事
-	getUpcomingEvents: () => request({
+	getupComingEvents: () => request({
 		url: '/events/upcoming',
 		method: 'GET'
 	})
@@ -127,9 +137,8 @@ export const favoriteApi = {
 	
 	// 添加收藏
 	addFavorite: (eventId) => request({
-		url: '/favorites',
-		method: 'POST',
-		data: { eventId }
+		url: `/favorites/${eventId}`,
+		method: 'POST'
 	}),
 	
 	// 取消收藏

@@ -75,6 +75,7 @@
 export default {
 	data() {
 		return {
+
 			loginType: 'password',
 			loginForm: {
 				phone: '',
@@ -164,11 +165,58 @@ export default {
 				})
 			})
 		},
-		wechatLogin() {
+		async wechatLogin() {
+			// #ifdef MP-WEIXIN
+			uni.showLoading({
+				title: '微信登录中...'
+			})
+			try {
+				const [err, res] = await uni.login({ provider: 'weixin' })
+				if (res.code) {
+					// 发送code到后端进行登录
+					const loginRes = await this.$api.userApi.login({ code: res.code, loginType: 'wechat' })
+					if (loginRes.code === 200) {
+						this.$store.commit('SET_USER_INFO', loginRes.data.userInfo)
+						this.$store.commit('SET_TOKEN', loginRes.data.token)
+						uni.hideLoading()
+						uni.showToast({
+							title: '微信登录成功',
+							icon: 'success'
+						})
+						setTimeout(() => {
+							uni.switchTab({
+								url: '/pages/index/index'
+							})
+						}, 1500)
+					} else {
+						uni.hideLoading()
+						uni.showToast({
+							title: loginRes.message || '微信登录失败',
+							icon: 'none'
+						})
+					}
+				} else {
+					uni.hideLoading()
+					uni.showToast({
+						title: '获取微信授权失败',
+						icon: 'none'
+					})
+				}
+			} catch (e) {
+				uni.hideLoading()
+				uni.showToast({
+					title: '微信登录异常',
+					icon: 'none'
+				})
+				console.error('微信登录失败', e)
+			}
+			// #endif
+			// #ifndef MP-WEIXIN
 			uni.showToast({
-				title: '微信登录功能开发中',
+				title: '请在微信小程序中打开',
 				icon: 'none'
 			})
+			// #endif
 		},
 		goToRegister() {
 			uni.navigateTo({

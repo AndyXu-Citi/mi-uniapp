@@ -38,7 +38,7 @@
 						</view>
 					</view>
 					<view class="registration-status">
-						<text class="status-tag" :class="getStatusClass(item.status)">{{ item.status }}</text>
+						<text class="status-tag" :class="['status-' + item.status]">{{ item.status }}</text>
 						<text class="registration-time">报名时间：{{ item.registrationTime }}</text>
 					</view>
 				</view>
@@ -132,15 +132,7 @@ export default {
 			// 从API获取报名记录
 			console.log('加载报名记录')
 		},
-		getStatusClass(status) {
-			const classMap = {
-				'报名成功': 'status-success',
-				'待付款': 'status-warning',
-				'已完成': 'status-info',
-				'已取消': 'status-error'
-			}
-			return classMap[status] || 'status-primary'
-		},
+
 		goToRegistrationDetail(id) {
 			uni.navigateTo({
 				url: `/pages/registration/registration?id=${id}`

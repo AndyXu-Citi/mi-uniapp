@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索结果 - 马拉松报名</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            height: 100%;
+            overflow-y: auto;
+        }
+        .status-bar {
+            height: 24px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 12px;
+            font-size: 12px;
+        }
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #eaeaea;
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            color: #999;
+        }
+        .tab-item.active {
+            color: #3b82f6;
+        }
+        .tab-icon {
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+        .content-container {
+            padding-bottom: 60px;
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            padding: 0 12px;
+            height: 36px;
+        }
+        .search-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            padding: 0 8px;
+            outline: none;
+        }
+        .filter-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            background-color: #f0f0f0;
+            border-radius: 16px;
+            font-size: 12px;
+            margin-right: 8px;
+            color: #666;
+        }
+        .filter-tag.active {
+            background-color: #e6f2ff;
+            color: #3b82f6;
+        }
+        .event-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .event-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+        .event-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            margin-right: 4px;
+        }
+        .badge-full {
+            background-color: #e6f2ff;
+            color: #3b82f6;
+        }
+        .badge-half {
+            background-color: #e6fffa;
+            color: #0d9488;
+        }
+        .event-price {
+            color: #f43f5e;
+            font-weight: 500;
+        }
+        .event-status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            background-color: #f3f4f6;
+            color: #9ca3af;
+        }
+        .event-status.active {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+        .event-status.ended {
+            background-color: #f3f4f6;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <span>20:30</span>
+        <div>
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi ml-1"></i>
+            <i class="fas fa-battery-full ml-1"></i>
+        </div>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="content-container">
+        <!-- 搜索栏 -->
+        <div class="p-3 bg-white sticky top-0 z-10 shadow-sm">
+            <div class="flex items-center">
+                <div class="search-bar flex-1">
+                    <i class="fas fa-search text-gray-400"></i>
+                    <input type="text" class="search-input" value="北京马拉松" placeholder="搜索马拉松赛事">
+                </div>
+                <button class="ml-3 text-blue-500 text-sm">取消</button>
+            </div>
+        </div>
+
+        <!-- 筛选标签 -->
+        <div class="bg-white p-3 border-t border-gray-100 overflow-x-auto">
+            <div class="flex whitespace-nowrap">
+                <div class="filter-tag active">
+                    <span>综合排序</span>
+                    <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </div>
+                <div class="filter-tag">
+                    <span>赛事类型</span>
+                    <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </div>
+                <div class="filter-tag">
+                    <span>赛事时间</span>
+                    <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </div>
+                <div class="filter-tag">
+                    <span>价格区间</span>
+                    <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </div>
+                <div class="filter-tag">
+                    <span>筛选</span>
+                    <i class="fas fa-filter ml-1 text-xs"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 搜索结果数量 -->
+        <div class="p-3 text-sm text-gray-500">
+            找到 <span class="text-blue-500">12</span> 个相关赛事
+        </div>
+
+        <!-- 搜索结果列表 -->
+        <div class="px-3">
+            <!-- 赛事卡片 1 -->
+            <div class="event-card">
+                <img src="https://via.placeholder.com/400x200?text=北京马拉松" alt="北京马拉松" class="event-image">
+                <div class="p-3">
+                    <h3 class="font-medium text-base mb-1">2024北京马拉松</h3>
+                    <div class="flex items-center text-xs text-gray-500 mb-2">
+                        <i class="fas fa-calendar-alt mr-1"></i>
+                        <span>2024年4月15日</span>
+                        <i class="fas fa-map-marker-alt ml-3 mr-1"></i>
+                        <span>北京市</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <span class="event-badge badge-full">全程马拉松</span>
+                            <span class="event-badge badge-half">半程马拉松</span>
+                        </div>
+                        <span class="event-status active">报名中</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="event-price">¥200起</span>
+                        <button class="bg-blue-500 text-white text-xs px-4 py-1 rounded-full">报名</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 赛事卡片 2 -->
+            <div class="event-card">
+                <img src="https://via.placeholder.com/400x200?text=北京半程马拉松" alt="北京半程马拉松" class="event-image">
+                <div class="p-3">
+                    <h3 class="font-medium text-base mb-1">2024北京半程马拉松</h3>
+                    <div class="flex items-center text-xs text-gray-500 mb-2">
+                        <i class="fas fa-calendar-alt mr-1"></i>
+                        <span>2024年5月20日</span>
+                        <i class="fas fa-map-marker-alt ml-3 mr-1"></i>
+                        <span>北京市</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <span class="event-badge badge-half">半程马拉松</span>
+                        </div>
+                        <span class="event-status active">报名中</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="event-price">¥150起</span>
+                        <button class="bg-blue-500 text-white text-xs px-4 py-1 rounded-full">报名</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 赛事卡片 3 -->
+            <div class="event-card">
+                <img src="https://via.placeholder.com/400x200?text=北京城市跑" alt="北京城市跑" class="event-image">
+                <div class="p-3">
+                    <h3 class="font-medium text-base mb-1">2024北京城市跑</h3>
+                    <div class="flex items-center text-xs text-gray-500 mb-2">
+                        <i class="fas fa-calendar-alt mr-1"></i>
+                        <span>2024年6月10日</span>
+                        <i class="fas fa-map-marker-alt ml-3 mr-1"></i>
+                        <span>北京市</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <span class="event-badge badge-half">10公里</span>
+                        </div>
+                        <span class="event-status active">报名中</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="event-price">¥100起</span>
+                        <button class="bg-blue-500 text-white text-xs px-4 py-1 rounded-full">报名</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 赛事卡片 4 -->
+            <div class="event-card">
+                <img src="https://via.placeholder.com/400x200?text=2023北京马拉松" alt="2023北京马拉松" class="event-image">
+                <div class="p-3">
+                    <h3 class="font-medium text-base mb-1">2023北京马拉松</h3>
+                    <div class="flex items-center text-xs text-gray-500 mb-2">
+                        <i class="fas fa-calendar-alt mr-1"></i>
+                        <span>2023年11月5日</span>
+                        <i class="fas fa-map-marker-alt ml-3 mr-1"></i>
+                        <span>北京市</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <span class="event-badge badge-full">全程马拉松</span>
+                            <span class="event-badge badge-half">半程马拉松</span>
+                        </div>
+                        <span class="event-status ended">已结束</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="event-price">¥200起</span>
+                        <button class="bg-gray-300 text-white text-xs px-4 py-1 rounded-full">查看</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 赛事卡片 5 -->
+            <div class="event-card">
+                <img src="https://via.placeholder.com/400x200?text=北京越野跑" alt="北京越野跑" class="event-image">
+                <div class="p-3">
+                    <h3 class="font-medium text-base mb-1">2024北京怀柔越野跑</h3>
+                    <div class="flex items-center text-xs text-gray-500 mb-2">
+                        <i class="fas fa-calendar-alt mr-1"></i>
+                        <span>2024年7月15日</span>
+                        <i class="fas fa-map-marker-alt ml-3 mr-1"></i>
+                        <span>北京市怀柔区</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <span class="event-badge badge-half">越野跑</span>
+                        </div>
+                        <span class="event-status active">报名中</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="event-price">¥180起</span>
+                        <button class="bg-blue-500 text-white text-xs px-4 py-1 rounded-full">报名</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <div class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </div>
+        <div class="tab-item active">
+            <i class="fas fa-search tab-icon"></i>
+            <span>搜索</span>
+        </div>
+        <div class="tab-item">
+            <i class="fas fa-heart tab-icon"></i>
+            <span>收藏</span>
+        </div>
+        <div class="tab-item">
+            <i class="fas fa-user tab-icon"></i>
+            <span>我的</span>
+        </div>
+    </div>
+</body>
+</html>

@@ -2,7 +2,7 @@
 const config = {
 	// 基础配置
 	baseURL: process.env.NODE_ENV === 'development' 
-		? 'http://localhost:8080/api' 
+		? 'http://localhost:8081/api'
 		: 'https://your-domain.com/api',
 	
 	// 应用信息
@@ -26,7 +26,7 @@ const config = {
 	
 	// 微信配置
 	wechat: {
-		appId: 'your-wechat-appid',
+		appId: 'wx21a3d7f98708c369',
 		scope: 'snsapi_userinfo'
 	},
 	
