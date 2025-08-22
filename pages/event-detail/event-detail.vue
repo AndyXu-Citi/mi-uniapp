@@ -66,13 +66,15 @@
 							<text class="route-value">{{ event.route.distance }}公里</text>
 						</view>
 					</view>
-					<map 
-						:latitude="event.latitude"
-						:longitude="event.longitude"
-						:markers="markers"
-						:polyline="polyline"
-						style="width: 100%; height: 300px; margin-top: 20px;"
-					></map>
+					<view v-show="false">
+						<map
+							:latitude="event.latitude"
+							:longitude="event.longitude"
+							:markers="markers"
+							:polyline="polyline"
+							style="width: 100%; height: 300px; margin-top: 20px;"
+						></map>
+					</view>
 				</view>
 
 				<!-- 报名信息 -->
@@ -103,18 +105,39 @@
 		<!-- 底部操作栏 -->
 		<view class="bottom-bar">
 			<view class="action-buttons">
-				<button class="btn-favorite" @click="toggleFavorite">
+				<button class="btn-action btn-feedback" @click="showFeedbackModal">
+					<image src="/static/icons/feedback.png" class="action-icon"></image>
+					<text>信息有误,我要纠错</text>
+				</button>
+				<button class="btn-action btn-share" @click="shareEvent">
+					<image src="/static/icons/share.png" class="action-icon"></image>
+					<text class="bottom-font-size">分享</text>
+				</button>
+				<button class="btn-action btn-favorite" :class="{'favorited': isFavorite}" @click="toggleFavorite">
 					<image :src="isFavorite ? '/static/icons/star-fill.png' : '/static/icons/star.png'" class="favorite-icon"></image>
 					<text>{{ isFavorite ? '已收藏' : '收藏' }}</text>
 				</button>
-				<button 
-					class="btn-register" 
-					:type="event.status === '报名中' ? 'primary' : 'default'"
-					:disabled="event.status !== '报名中'"
-					@click="goToRegistration"
-				>
-					{{ event.status === '报名中' ? '立即报名' : event.status }}
-				</button>
+			</view>
+			<view class="ai-disclaimer">
+				<text>信息由AI自动生成，请以官方真实信息为准。</text>
+			</view>
+		</view>
+
+		<!-- 反馈弹窗 -->
+		<view class="feedback-modal" v-if="showFeedback">
+			<view class="feedback-content">
+				<view class="feedback-header">
+					<text class="feedback-title">信息反馈</text>
+					<text class="feedback-close" @click="showFeedback = false">×</text>
+				</view>
+				<view class="feedback-body">
+					<textarea class="feedback-input" v-model="feedbackContent" placeholder="请详细描述您发现的问题..." maxlength="200"></textarea>
+					<text class="feedback-count">{{feedbackContent.length}}/200</text>
+				</view>
+				<view class="feedback-footer">
+					<button class="feedback-cancel" @click="showFeedback = false">取消</button>
+					<button class="feedback-submit" @click="submitFeedback">提交</button>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -134,7 +157,7 @@ export default {
 				endTime: '13:30',
 				location: '北京市天安门广场',
 				price: 200,
-				description: '<p>北京马拉松创办于1981年，是国内历史最悠久的马拉松赛事之一，素有“国马”之称。赛事起点设在天安门广场，终点设在奥林匹克公园景观大道，全程42.195公里，途经长安街、复兴门、月坛、北展桥、知春路、学院路、林萃路等地标性建筑。</p><p>本届赛事将延续“健康、绿色、智慧、快乐”的办赛理念，为跑者提供专业、安全、贴心的赛事服务。</p>',
+				description: '<p>北京马拉松创办于1981年，是国内历史最悠久的马拉松赛事之一，素有"国马"之称。赛事起点设在天安门广场，终点设在奥林匹克公园景观大道，全程42.195公里，途经长安街、复兴门、月坛、北展桥、知春路、学院路、林萃路等地标性建筑。</p><p>本届赛事将延续"健康、绿色、智慧、快乐"的办赛理念，为跑者提供专业、安全、贴心的赛事服务。</p>',
 				route: {
 					start: '天安门广场',
 					end: '奥林匹克公园景观大道',
@@ -150,7 +173,9 @@ export default {
 				}
 			},
 			currentTab: 0,
-			isFavorite: false,
+			isFavorite: true,
+			showFeedback: false,
+			feedbackContent: 'test',
 			tabList: [
 				{ name: '赛事介绍' },
 				{ name: '比赛路线' },
@@ -200,18 +225,64 @@ export default {
 				icon: 'none'
 			})
 		},
-		goToRegistration() {
-			if (this.event.status === '报名中') {
-				uni.navigateTo({
-					url: `/pages/registration/registration?eventId=${this.event.id}`
-				})
+		shareEvent() {
+			// 调用分享API
+			uni.share({
+				provider: 'weixin',
+				scene: 'WXSceneSession',
+				type: 0,
+				title: this.event.title,
+				summary: `${this.event.date} ${this.event.location}`,
+				imageUrl: this.event.image,
+				href: `https://marathon-info.com/event/${this.event.id}`,
+				success: function(res) {
+					console.log('分享成功：' + JSON.stringify(res));
+					uni.showToast({
+						title: '分享成功',
+						icon: 'success'
+					});
+				},
+				fail: function(err) {
+					console.log('分享失败：' + JSON.stringify(err));
+					uni.showToast({
+						title: '分享失败',
+						icon: 'none'
+					});
+				}
+			});
+		},
+		showFeedbackModal() {
+			this.showFeedback = true;
+			this.feedbackContent = '';
+		},
+		submitFeedback() {
+			if (!this.feedbackContent.trim()) {
+				uni.showToast({
+					title: '请输入反馈内容',
+					icon: 'none'
+				});
+				return;
 			}
+			
+			// 这里可以调用API提交反馈
+			console.log('提交反馈:', this.feedbackContent);
+			
+			uni.showToast({
+				title: '反馈提交成功',
+				icon: 'success'
+			});
+			
+			this.showFeedback = false;
+			this.feedbackContent = '';
 		}
 	}
 }
 </script>
 
 <style lang="scss" scoped>
+.bottom-font-size{
+	font-size: 10rpx;
+}
 .container {
 	background-color: #f5f5f5;
 	min-height: 100vh;
@@ -410,38 +481,183 @@ export default {
 
 .action-buttons {
 	display: flex;
-	gap: 20rpx;
+	justify-content: flex-end; /* 将按钮移动到最右边 */
+	gap: 24rpx;
 	align-items: center;
+	margin-bottom: 24rpx;
+	padding: 0 20rpx;
+}
+
+.btn-action {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	padding: 12rpx 24rpx;
+	border-radius: 40rpx;
+	font-size: 26rpx;
+	width: auto;
+	box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.08);
+	transition: all 0.3s ease;
 }
 
 .btn-favorite {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	padding: 20rpx;
-	border: 1rpx solid #ddd;
-	border-radius: 10rpx;
-	background-color: #fff;
-	width: 120rpx;
+	background-color: #007AFF;
+	border: 1rpx solid #007AFF;
+	color: #fff;
+	min-width: 140rpx;
+}
+.btn-favorite:active {
+	background-color: #007AFF;
+	border-color: #007AFF;
+}
+/* 确保已收藏状态与未收藏状态样式一致 */
+.btn-favorite.favorited {
+	background-color: #007AFF;
+	border: 1rpx solid #007AFF;
+	color: #fff;
 }
 
-.favorite-icon {
-	width: 40rpx;
-	height: 40rpx;
+.btn-share {
+	background-color: #4CD964;
+	border: 1rpx solid #4CD964;
+	color: #fff;
+	min-width: 140rpx;
+}
+.btn-share:active {
+	background-color: #4CD964;
+	border-color: #4CD964;
+}
+
+.btn-feedback {
+	background-color: #fff;
+	border: 1rpx solid #ddd;
+	color: #666;
+}
+.btn-feedback:active {
+	background-color: #fff;
+	border-color: #ddd;
+}
+
+.action-icon, .favorite-icon {
+	width: 36rpx;
+	height: 36rpx;
+}
+
+.btn-action text {
+	font-size: 26rpx;
+	margin-left: 10rpx;
+	line-height: 1;
+	display: inline-block;
+	vertical-align: middle;
+	font-weight: 400;
+	letter-spacing: 0.5rpx;
 }
 
 .btn-favorite text {
-	font-size: 24rpx;
-	color: #666;
-	margin-top: 5rpx;
+	color: #fff;
 }
 
-.btn-register {
-	flex: 1;
-	padding: 20rpx;
-	border-radius: 10rpx;
+.btn-share text {
+	color: #fff;
+}
+
+.btn-feedback text {
+	color: #666;
+}
+
+.ai-disclaimer {
+	text-align: center;
+	font-size: 24rpx;
+	color: #999;
+	margin-top: 16rpx;
+	padding: 0 30rpx;
+	line-height: 1.4;
+}
+
+/* 反馈弹窗样式 */
+.feedback-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 999;
+}
+
+.feedback-content {
+	width: 80%;
+	background-color: #fff;
+	border-radius: 20rpx;
+	overflow: hidden;
+}
+
+.feedback-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 30rpx;
+	border-bottom: 1rpx solid #eee;
+}
+
+.feedback-title {
 	font-size: 32rpx;
 	font-weight: bold;
+	color: #333;
+}
+
+.feedback-close {
+	font-size: 40rpx;
+	color: #999;
+}
+
+.feedback-body {
+	padding: 30rpx;
+	position: relative;
+}
+
+.feedback-input {
+	width: 100%;
+	height: 300rpx;
+	border: 1rpx solid #eee;
+	border-radius: 10rpx;
+	padding: 20rpx;
+	font-size: 28rpx;
+	box-sizing: border-box;
+}
+
+.feedback-count {
+	position: absolute;
+	right: 40rpx;
+	bottom: 40rpx;
+	font-size: 24rpx;
+	color: #999;
+}
+
+.feedback-footer {
+	display: flex;
+	justify-content: flex-end;
+	padding: 20rpx 30rpx 30rpx;
+	gap: 20rpx;
+}
+
+.feedback-cancel, .feedback-submit {
+	padding: 15rpx 40rpx;
+	border-radius: 50rpx;
+	font-size: 28rpx;
+}
+
+.feedback-cancel {
+	background-color: #f5f5f5;
+	color: #666;
+}
+
+.feedback-submit {
+	background-color: #007AFF;
+	color: #fff;
 }
 </style>
