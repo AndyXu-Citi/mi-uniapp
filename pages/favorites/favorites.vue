@@ -35,26 +35,7 @@ export default {
 	},
 	data() {
 		return {
-			favoriteList: [
-				{
-					id: 1,
-					title: '2024北京马拉松',
-					date: '2024-10-20',
-					location: '北京市',
-					price: 200,
-					image: '/static/images/events/beijing.jpg',
-					status: '报名中'
-				},
-				{
-					id: 2,
-					title: '2024上海马拉松',
-					date: '2024-11-10',
-					location: '上海市',
-					price: 180,
-					image: '/static/images/events/shanghai.jpg',
-					status: '报名中'
-				}
-			]
+			favoriteList: []
 		}
 	},
 	onShow() {
@@ -69,8 +50,8 @@ export default {
 		      console.log('获取收藏结果', res);
 		      
 		      // 根据你的API返回结构调整
-		      if (res && res.data && res.data.records) {
-		        // this.favoriteList = res.data.records;
+		      if (res && res.data) {
+		        this.favoriteList = res.data;
 		        // uni.setStorageSync('favorites', this.favoriteList); // 如果需要本地存储
 		      } else {
 		        throw new Error(res.message || '数据格式错误');
